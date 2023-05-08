@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+/* 自定义主题变量 */
+// @forward 'element-plus/theme-chalk/src/common/var.scss' with (
+//   $colors: (
+//     'primary': (
+//       'base': #409eff,
+//     ),
+//     'success': (
+//       'base': #67c23a,
+//     ),
+//     'warning': (
+//       'base': #e6a23c,
+//     ),
+//     'danger': (
+//       'base': #f56c6c,
+//     ),
+//     'error': (
+//       'base': #f56c6c,
+//     ),
+//     'info': (
+//       'base': #909399,
+//     )
+//   )
+// );
+
+/**
+ * 导入所有样式进行定义主题(为了减少打包大小, 还是建议在使用组件时按需导入 SCSS, 见 vite.config unplugin-element-plus/vite 插件说明)
+ * 但你也可以这样做, 放开以下注释即可全局导入 Element 样式
+ */
+// @use "element-plus/theme-chalk/src/index.scss" as *;

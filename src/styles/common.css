@@ -1,0 +1,640 @@
+
+/****  盒子模型  ****/
+.bs-b {
+  box-sizing: border-box;
+}
+
+.bs-c {
+  box-sizing: content-box;
+}
+
+.bs-i {
+  box-sizing: inherit;
+}
+
+/****  显示方式  ****/
+.d-n {
+  display: none;
+}
+
+.d-b {
+  display: block;
+}
+
+.d-i {
+  display: inline;
+}
+
+.d-ib {
+  display: inline-block;
+}
+
+.d-inherit {
+  display: inherit;
+}
+
+.d-t {
+  display: table;
+}
+
+.d-tc {
+  display: table-cell;
+}
+
+.d-f {
+  display: flex;
+}
+
+.d-if {
+  display: inline-flex;
+}
+
+.v-v {
+  visibility: visible;
+}
+
+.v-h {
+  visibility: hidden;
+}
+
+/****  文本显示方式  ****/
+.ws-p-w {
+  white-space: pre-wrap;
+}
+
+/****  flex 相关  ****/
+.flex-jc-sa {
+  justify-content: space-around;
+}
+
+.flex-jc-sb {
+  justify-content: space-between;
+}
+
+.flex-jc-c {
+  justify-content: center;
+}
+
+.flex-jc-fs {
+  justify-content: flex-start;
+}
+
+.flex-jc-fe {
+  justify-content: flex-end;
+}
+
+.flex-ai-c {
+  align-items: center;
+}
+
+.flex-ai-fs {
+  align-items: flex-start;
+}
+
+.flex-ai-fe {
+  align-items: flex-end;
+}
+
+.flex-ai-s {
+  align-items: stretch;
+}
+
+/* 项目均分大小 */
+.flex-item {
+  flex: 1;
+}
+
+/* flex item 排列方式 */
+.flex-ff-r {
+  flex-flow: row nowrap;
+}
+
+.flex-ff-rr {
+  flex-flow: row-reverse nowrap;
+}
+
+.flex-ff-r-w {
+  flex-flow: row wrap;
+}
+
+.flex-ff-rr-w {
+  flex-flow: row-reverse wrap;
+}
+
+.flex-ff-r-wr {
+  flex-flow: row wrap-reverse;
+}
+
+.flex-ff-rr-wr {
+  flex-flow: row-reverse wrap-reverse;
+}
+
+.flex-ff-c {
+  flex-flow: column nowrap;
+}
+
+.flex-ff-cr {
+  flex-flow: column-reverse nowrap;
+}
+
+.flex-ff-c-w {
+  flex-flow: column wrap;
+}
+
+.flex-ff-cr-w {
+  flex-flow: column-reverse wrap;
+}
+
+.flex-ff-c-wr {
+  flex-flow: column wrap-reverse;
+}
+
+.flex-ff-cr-wr {
+  flex-flow: column-reverse wrap-reverse;
+}
+
+.flex-w {
+  flex-wrap: wrap;
+}
+
+/****  定位  ****/
+.p-r {
+  position: relative;
+}
+
+.p-a {
+  position: absolute;
+}
+
+.p-f {
+  position: fixed;
+}
+
+.p-s {
+  position: static;
+}
+
+.p-i {
+  position: inherit;
+}
+
+.p-sy {
+  position: sticky !important;
+}
+
+/****  浮动  ****/
+.f-l {
+  float: left;
+}
+
+.f-r {
+  float: right;
+}
+
+/****  清除浮动  ****/
+.clear::after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/****  布局 (数字表示一行中有几列) ****/
+.row {
+  box-sizing: border-box;
+}
+
+[class^="row-col-"],
+[class*=" row-col-"] {
+  box-sizing: border-box;
+  height: 100%;
+  float: left;
+  min-height: 1px;
+  position: relative;
+}
+
+.row .row-col-1 {
+  width: 100%;
+}
+
+.row .row-col-2 {
+  width: calc(100% / 2);
+}
+
+.row .row-col-3 {
+  width: calc(100% / 3);
+}
+
+.row .row-col-4 {
+  width: calc(100% / 4);
+}
+
+.row .row-col-5 {
+  width: calc(100% / 5);
+}
+
+.row .row-col-6 {
+  width: calc(100% / 6);
+}
+
+.row .row-col-7 {
+  width: calc(100% / 7);
+}
+
+.row .row-col-8 {
+  width: calc(100% / 8);
+}
+
+.row .row-col-9 {
+  width: calc(100% / 9);
+}
+
+.row .row-col-10 {
+  width: calc(100% / 10);
+}
+
+.row .row-col-11 {
+  width: calc(100% / 11);
+}
+
+.row .row-col-12 {
+  width: calc(100% / 12);
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+/**** 文本 - 对齐 ****/
+.ta-l {
+  text-align: left;
+}
+
+/**** 水平居左 ****/
+.ta-r {
+  text-align: right;
+}
+
+/**** 水平居中 ****/
+.ta-c {
+  text-align: center;
+}
+
+/**** 水平居右 ****/
+.va-s {
+  vertical-align: sub;
+}
+
+.va-t {
+  vertical-align: top;
+}
+
+/**** 上下居顶 ****/
+.va-m {
+  vertical-align: middle;
+}
+
+/**** 上下居中 ****/
+.va-b {
+  vertical-align: bottom;
+}
+
+/**** 上下居底 ****/
+
+/**** 文本 - 溢出 ****/
+.to-e {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: normal !important;
+}
+
+.to-es {
+  /**** line-height 与 max-height 倍数关系 (只适用于Webkit内核) ****/
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+/**** 清除行内字体间距 ****/
+.clear-space {
+  font-size: 0;
+}
+
+/**** 超出 ****/
+.o-i {
+  overflow: initial;
+}
+
+.o-a {
+  overflow: auto;
+
+  /* 力反馈滑动 */
+  -webkit-overflow-scrolling: touch;
+
+  /* 平滑滚动 */
+  scroll-behavior: smooth;
+}
+
+.ox-a {
+  overflow-x: auto;
+
+  /* 力反馈滑动 */
+  -webkit-overflow-scrolling: touch;
+
+  /* 平滑滚动 */
+  scroll-behavior: smooth;
+}
+
+.oy-a {
+  overflow-y: auto;
+
+  /* 力反馈滑动 */
+  -webkit-overflow-scrolling: touch;
+
+  /* 平滑滚动 */
+  scroll-behavior: smooth;
+}
+
+.o-h {
+  overflow: hidden;
+}
+
+/**** 鼠标手势 ****/
+.cur-d {
+  cursor: default;
+}
+
+.cur-p {
+  cursor: pointer;
+}
+
+/**** 上外间距 ****/
+.mt-0 {
+  margin-top: 0;
+}
+
+.mt-5 {
+  margin-top: 5px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-25 {
+  margin-top: 25px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+/**** 右外间距 ****/
+.mr-0 {
+  margin-right: 0;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mr-15 {
+  margin-right: 15px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.mr-25 {
+  margin-right: 25px;
+}
+
+.mr-30 {
+  margin-right: 30px;
+}
+
+/**** 下外间距 ****/
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mb-25 {
+  margin-bottom: 25px;
+}
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+/**** 左外间距 ****/
+.ml-0 {
+  margin-left: 0;
+}
+
+.ml-5 {
+  margin-left: 5px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-15 {
+  margin-left: 15px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.ml-25 {
+  margin-left: 25px;
+}
+
+.ml-30 {
+  margin-left: 30px;
+}
+
+/**** 上内间距 ****/
+.pt-0 {
+  padding-top: 0;
+}
+
+.pt-5 {
+  padding-top: 5px;
+}
+
+.pt-10 {
+  padding-top: 10px;
+}
+
+.pt-15 {
+  padding-top: 15px;
+}
+
+.pt-20 {
+  padding-top: 20px;
+}
+
+.pt-25 {
+  padding-top: 25px;
+}
+
+.pt-30 {
+  padding-top: 30px;
+}
+
+/**** 右内间距 ****/
+.pr-0 {
+  padding-right: 0;
+}
+
+.pr-5 {
+  padding-right: 5px;
+}
+
+.pr-10 {
+  padding-right: 10px;
+}
+
+.pr-15 {
+  padding-right: 15px;
+}
+
+.pr-20 {
+  padding-right: 20px;
+}
+
+.pr-25 {
+  padding-right: 25px;
+}
+
+.pr-30 {
+  padding-right: 30px;
+}
+
+/**** 下内间距 ****/
+.pb-0 {
+  padding-bottom: 0;
+}
+
+.pb-5 {
+  padding-bottom: 5px;
+}
+
+.pb-10 {
+  padding-bottom: 10px;
+}
+
+.pb-15 {
+  padding-bottom: 15px;
+}
+
+.pb-20 {
+  padding-bottom: 20px;
+}
+
+.pb-25 {
+  padding-bottom: 25px;
+}
+
+.pb-30 {
+  padding-bottom: 30px;
+}
+
+/**** 左内间距 ****/
+.pl-0 {
+  padding-left: 0;
+}
+
+.pl-5 {
+  padding-left: 5px;
+}
+
+.pl-10 {
+  padding-left: 10px;
+}
+
+.pl-15 {
+  padding-left: 15px;
+}
+
+.pl-20 {
+  padding-left: 20px;
+}
+
+.pl-25 {
+  padding-left: 25px;
+}
+
+.pl-30 {
+  padding-left: 30px;
+}
+
+/**** 禁止/启用文本选中 ****/
+.not-select,
+.not-select * {
+  user-select: none;
+}
+.enable-select,
+.enable-select * {
+  user-select: text;
+}
+
+/***自定义滚动条样式***/
+.mos-scrollbar::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 8px;     
+  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 8px;
+}
+
+.mos-scrollbar::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background-color: #939393;
+}
+
+.mos-scrollbar::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background-color: transparent;
+}

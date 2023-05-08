@@ -1,0 +1,55 @@
+body, div, p, h1, h2, h3, h4, h5, h6, ul, li, ol, li, dl, dt, dd, td, blockquote, span, a, s, i, b, u, del, big, samp, small, strike, strong, sub, sup, img, input, button, select, textarea {
+  /* font-size: 13px; */
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body, div, p, hr, h1, h2, h3, h4, h5, h6, ul, li, ol, li, dl, dt, dd, td, blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+span, a, s, i, b, u, del, big, samp, small, strike, strong, sub, sup, img {
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+
+input,
+button,
+select,
+textarea {
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  padding: 0;
+  resize: none;
+  background-color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+table {
+  width: 100%;
+  empty-cells: show;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+select {
+  /**** 清除默认三角 ****/
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:active {
+  color: inherit;
+}

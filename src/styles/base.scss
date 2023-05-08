@@ -1,0 +1,27 @@
+@charset "utf-8";
+
+html,
+body,
+#app,
+.app-wrap,
+.layout-wrap {
+  height: 100%;  
+}
+
+#app {
+  background-color: #fff;
+}
+
+.component-wrap {
+  box-sizing: border-box;
+  height: 100%;
+
+  &.pd {
+    padding: 20px;
+  }
+}
+
+.component-content {
+  box-sizing: border-box;
+  min-height: 100%;
+}

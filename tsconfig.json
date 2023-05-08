@@ -1,0 +1,67 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",                              // 解析非相对模块的基地址, 默认是当前目录
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",                   // 模块解析策略, ts 默认用 node 的解析策略, 即相对的方式导入
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,                      // vite 编译器选项
+    "esModuleInterop": true,                      // 允许 `export` 导出, 由 `import from` 导入
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": false,                    // 不允许把 null、undefined 赋值给其他类型的变量
+    "experimentalDecorators": true,
+    "noUnusedParameters": true,                   // 检查未使用的函数参数(只提示, 不报错)
+    "noUnusedLocals": true,                       // 检查只声明, 未使用的局部变量(只提示, 不报错)
+    "noImplicitAny": false,                       // 不允许隐式 Any 类型
+    "allowJs": true,                              // 允许编译器编译 JS、JSX 文件
+    "types": [
+      "element-plus/global",
+      "unplugin-vue-define-options/macros-global"
+    ],
+    "typeRoots": [
+      "./node_modules/",
+      "./src/typings/index"
+    ],
+    "paths": {
+      "api/*": ["./src/api/*"],
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "config/*": ["./src/config/*"],
+      "config": ["./src/config/index.ts"],
+      "hooks/*": ["./src/hooks/*"],
+      "layout/*": ["./src/layout/*"],
+      "mock/*": ["./src/mock/*"],
+      "plugins/*": ["./src/plugins/*"],
+      "router/*": ["./src/router/*"],
+      "router": ["./src/router/index.ts"],
+      "services/*": ["./src/services/*"],
+      "services": ["./src/services/index.ts"],
+      "stores/*": ["src/stores/*"],
+      "styles/*": ["./src/styles/*"],
+      "utils/*": ["./src/utils/*"],
+      "views/*": ["./src/views/*"]
+    },
+    "lib": [                                      // TS 需要引用的库, 即声明文件, ES5 默认引用 dom、es5、scripthost, 如需要使用 ES 的高级版本特性, 通常都需要配置, 如 ES8 的数组新特性需要引入 "ES2019.Array"
+      "ESNext",
+      "DOM",
+      "DOM.Iterable",
+      "ScriptHost"
+    ]
+  },
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": [
+    "env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ],
+  "references": [
+    { "path": "./tsconfig.node.json" }
+  ]
+}
