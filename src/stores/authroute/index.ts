@@ -1,10 +1,12 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
-import { addRoutes } from 'router'
+import router, { addRoutes } from 'router'
 
 export const useAuthrouteStore = defineStore('authroute', () => {
   // 鉴权路由管理
   const authRouteManages = reactive<Identity.AuthRouteManage[]>([])
+
+  console.log('---------------------------------- router ', router)
 
   /**
    * 添加鉴权路由

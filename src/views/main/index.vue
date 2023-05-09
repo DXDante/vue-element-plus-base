@@ -1,5 +1,5 @@
 <template>
-  <div class="main-wrap component-wrap">
+  <div class="main-wrap component-wrap bs-b d-f flex-ff-c flex-ai-s">
     <!-- 内容区视图 -->
     <RouterView class="router-view" v-slot="{ Component }">
       <transition>
@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-
 </script>
 
 <style lang="scss" scoped>

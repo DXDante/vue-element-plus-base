@@ -10,6 +10,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 import ElementPlus from 'unplugin-element-plus/vite'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -27,10 +29,21 @@ export default defineConfig(({ command, mode }) => {
         optimize: true
       }),
       AutoImport({
-        resolvers: [ElementPlusResolver()],
+        resolvers: [
+          ElementPlusResolver(),
+          // 自动导入图标组件
+          IconsResolver({ prefix: 'Icon' })
+        ],
       }),
       Components({
-        resolvers: [ElementPlusResolver()],
+        resolvers: [
+          ElementPlusResolver(),
+          // 自动注册图标组件
+          IconsResolver({ enabledCollections: ['ep'] })
+        ],
+      }),
+      Icons({
+        autoInstall: true,
       }),
       visualizer(),
       // 按需导入且自定义主题时, 需要在使用的组件中导入对应的组件 SCSS, 如下(建议这样, 虽然麻烦但可减少打包样式的代码, 但你也可以不这样做)
