@@ -6,7 +6,7 @@ export const useAuthrouteStore = defineStore('authroute', () => {
   // 鉴权路由管理
   const authRouteManages = reactive<Identity.AuthRouteManage[]>([])
 
-  console.log('---------------------------------- router ', router)
+  console.log('----------------- useAuthrouteStore 输出 router ', router)
 
   /**
    * 添加鉴权路由

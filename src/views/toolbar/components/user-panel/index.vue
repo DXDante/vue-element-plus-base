@@ -1,8 +1,7 @@
 <template>
   <div class="user-panel-wrap">
     <el-icon color="#11171C" size="18" @click.stop="logout">
-      <!-- <Setting /> -->
-      退
+      <Setting />
     </el-icon>
   </div>
 </template>

@@ -29,11 +29,13 @@ export default defineConfig(({ command, mode }) => {
         optimize: true
       }),
       AutoImport({
+        // imports: ['vue'],
         resolvers: [
           ElementPlusResolver(),
           // 自动导入图标组件
           IconsResolver({ prefix: 'Icon' })
         ],
+        dts: './auto-imports.d.ts'
       }),
       Components({
         resolvers: [
@@ -41,9 +43,11 @@ export default defineConfig(({ command, mode }) => {
           // 自动注册图标组件
           IconsResolver({ enabledCollections: ['ep'] })
         ],
+        dts: './components.d.ts'
       }),
       Icons({
         autoInstall: true,
+        compiler: 'vue3'
       }),
       visualizer(),
       // 按需导入且自定义主题时, 需要在使用的组件中导入对应的组件 SCSS, 如下(建议这样, 虽然麻烦但可减少打包样式的代码, 但你也可以不这样做)

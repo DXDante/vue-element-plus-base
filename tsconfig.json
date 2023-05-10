@@ -21,7 +21,8 @@
     "allowJs": true,                              // 允许编译器编译 JS、JSX 文件
     "types": [
       "element-plus/global",
-      "unplugin-vue-define-options/macros-global"
+      "unplugin-vue-define-options/macros-global",
+      "unplugin-icons/types/vue"
     ],
     "typeRoots": [
       "./node_modules/",

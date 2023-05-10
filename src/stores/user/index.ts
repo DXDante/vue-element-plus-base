@@ -29,6 +29,8 @@ export const useUserStore = defineStore('user', () => {
         }
 
         // 2) 添加鉴权路由
+        // TODO: (1) 这里将 "鉴权路由" authRoutes 移动至 useAuthrouteStore 中导入, 耦合度更高
+        // (2) 根据用户信息的权限相关数据进行 "鉴权路由" 的过滤, addAuthRoutes 可传入一个过滤器函数来过滤 router/config 中的鉴权路由
         authrouteStore.addAuthRoutes(authRoutes)
 
         console.log('已登录')
