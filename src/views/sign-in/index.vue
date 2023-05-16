@@ -17,11 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import { useUserStore } from 'stores/user/index'
 import { useForm } from './hooks/use-form'
 
-const router = useRouter()
 const { login: userStoreLogin } = useUserStore()
 const { formComponentRef, form, formRules, formValidate } = useForm()
 
@@ -29,9 +27,7 @@ const { formComponentRef, form, formRules, formValidate } = useForm()
 const login = async () => {
   if (await formValidate()) {
     const { phone, password } = form
-    if (await userStoreLogin<Identity.ILoginFormsPhoneAndPassword>({ phone, password })) {
-      router.replace({ name: 'main-home' })
-    }
+    await userStoreLogin<Identity.ILoginFormsPhoneAndPassword>({ phone, password })
   }
 }
 </script>

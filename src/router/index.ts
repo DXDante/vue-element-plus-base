@@ -15,8 +15,8 @@ useGlobalInterceptor(router)
  * 添加路由
  * @param { Array<RouteRecordRaw> } routeConfigs 路由配置项
  */
-export const addRoutes = <Identity.IAddRoutes>((routeConfigs) => {
+export const addRoutes: Identity.IAddRoutes = (routeConfigs) => {
   return routeConfigs.map((route: VueRouter.RouteRecordRaw) => router.addRoute(route))
-})
+}
 
 export default router

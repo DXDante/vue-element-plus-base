@@ -39,7 +39,9 @@ export interface IAddRoutes {
 export type AuthRouteManage = () => void
 
 // 添加鉴权路由
-export type AddAuthRoutes = (routes: VueRouter.RouteRecordRaw[]) => void
+export interface IAddAuthRoutes {
+  (): void
+}
 
 // 销毁鉴权路由
 export type DestroyAuthRoutes = AuthRouteManage

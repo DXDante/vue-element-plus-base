@@ -7,16 +7,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
 import { useUserStore } from 'stores/user/index'
 
-const router = useRouter()
 const { logout: userStoreLogout } = useUserStore()
 
 const logout = async () => {
-  if (await userStoreLogout()) {
-    router.replace({ name: 'sign-in' })
-  }
+  await userStoreLogout()
 }
 </script>
 

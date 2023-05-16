@@ -4,7 +4,9 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import pluginComponents from 'plugins/components'
-import { useAuthrouteStore } from 'stores/authroute/index'
+
+import storeReset from 'plugins/store-reset'
+import { useAuthrouteStore } from 'stores/authroute'
 
 import 'styles/reset-default.css'
 import 'styles/common.css'
@@ -13,12 +15,12 @@ import 'styles/reset-element.scss'
 import 'styles/transition.scss'
 
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
+pinia.use(storeReset)
+app.use(pinia)
+useAuthrouteStore().addAuthRoutes()
 app.use(router)
 app.use(pluginComponents)
-
-// TODO: 处理已登录设置鉴权路由
-const authrouteStore = useAuthrouteStore()
 
 app.mount('#app')
