@@ -12,20 +12,44 @@ export interface ILoginFormsPhoneAndPassword {
   password: string;
 }
 
-// 登录
-export interface ILogin {
-  <T>(forms: T): Promise<boolean>
+// 登录返回
+export interface ILoginResult {
+  token: string
 }
 
-// 退出登录
+// 登录
+export interface ILogin {
+  <T>(forms: T): Promise<HttpResponse.IResponse<ILoginResult>>
+}
+
+// 用户 Store 登录
+export interface IUserStoreLogin {
+  <T>(forms: T, toRouteRaw?: VueRouter.RouteLocationRaw): Promise<boolean>
+}
+
+// 登出
 export interface ILogout {
-  (): Promise<boolean>
+  (): Promise<HttpResponse.IResponse<unknown>>
+}
+
+// 用户 Store 登出
+export interface IUserStoreLogout {
+  (toRouteRaw?: VueRouter.RouteLocationRaw): Promise<boolean>
 }
 
 /*************************
  * 用户鉴权相关
  */
-export type UserInfo = Record<string, any> | null
+// 用户信息
+export interface IUserInfo {
+  username: string
+  phone: string
+  id: number
+}
+
+export interface IQueryUserInfo {
+  (): Promise<HttpResponse.IResponse<IUserInfo>>
+}
 
 /*************************
  * 用户鉴权路由相关

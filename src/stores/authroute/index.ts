@@ -1,9 +1,8 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
-import { storeToRefs } from 'pinia'
-import router, { addRoutes } from 'router'
-import { useUserStore } from 'stores/user'
+import { addRoutes } from 'router'
 import { authRoutes } from 'router/config'
+import { useUserStore } from 'stores/user'
 
 export const useAuthrouteStore = defineStore('authroute', () => {
   // 鉴权路由管理
@@ -13,13 +12,13 @@ export const useAuthrouteStore = defineStore('authroute', () => {
    * 添加鉴权路由()
    */
   const addAuthRoutes: Identity.IAddAuthRoutes = () => {
-    const { isLogged: userStoreIsLogged, userInfo: userStoreUserInfo } = storeToRefs(useUserStore())
+    const { isLogged: userStoreIsLogged, userInfo: userStoreUserInfo } = useUserStore()
 
-    if (userStoreIsLogged.value) {
-      /********** 根据用户信息相关数据过滤你的鉴权路由 **********/
+    if (userStoreIsLogged) {
+      /********** 测试代码, 根据用户信息相关数据过滤你的鉴权路由 **********/
       userStoreUserInfo;
       authRoutes;
-      /********** 根据用户信息相关数据过滤你的鉴权路由 **********/
+      /********** 测试代码, 根据用户信息相关数据过滤你的鉴权路由 **********/
       authRouteManages.splice(0, authRouteManages.length, ...(addRoutes(authRoutes)))
     }
   }

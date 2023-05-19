@@ -19,3 +19,9 @@ export const elementConfigProviderOptions = {
   //   max: 10
   // }
 }
+
+// 默认登录后跳转的路由
+export const defaultAfterLoginRoute: VueRouter.RouteLocationRaw = { name: 'main-home' }
+
+// 默认登出后跳转的路由
+export const defaultAfterLogoutRoute: VueRouter.RouteLocationRaw = { name: 'sign-in' }

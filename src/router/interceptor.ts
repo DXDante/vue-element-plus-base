@@ -8,7 +8,7 @@ interface IGlobalInterceptor {
   (router: VueRouter.Router): void
 }
 
-export const useGlobalInterceptor = <IGlobalInterceptor>((router) => {
+export const useGlobalInterceptor: IGlobalInterceptor = (router) => {
   router.beforeEach(async (to, from, next) => {
     const { name: toName, matched: toMatched } = to
     const isMatched = !!toMatched.length
@@ -20,12 +20,12 @@ export const useGlobalInterceptor = <IGlobalInterceptor>((router) => {
       return next(<VueRouter.RouteLocationRaw>({ replace: true, name: 'sign-in', query }))
     }
 
-    // 2) 未匹配上地址跳转首页
+    // 2) 未匹配跳转 404
     if (!isMatched) {
-      return next(<VueRouter.RouteLocationRaw>({ replace: true, name: 'main-home' }))
+      return next(<VueRouter.RouteLocationRaw>({ replace: true, name: 'not-found' }))
     }
 
-    // 2) 默认放行
+    // 3) 默认放行
     next()
   })
 
@@ -33,7 +33,7 @@ export const useGlobalInterceptor = <IGlobalInterceptor>((router) => {
     // 切换页面标题
     (document as Document).title = toMeta.title as string
   })
- })
+ }
  
  export default useGlobalInterceptor
  

@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router'
 import pluginComponents from 'plugins/components'
 
-import storeReset from 'plugins/store-reset'
+import { storeExtendRouter, storeReset } from 'plugins/stores'
 import { useAuthrouteStore } from 'stores/authroute'
 
 import 'styles/reset-default.css'
@@ -17,6 +17,7 @@ import 'styles/transition.scss'
 const app = createApp(App)
 const pinia = createPinia()
 
+pinia.use(storeExtendRouter)
 pinia.use(storeReset)
 app.use(pinia)
 useAuthrouteStore().addAuthRoutes()

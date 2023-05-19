@@ -1,12 +1,18 @@
 import axios from 'axios'
 import qs from 'qs'
 import EasyAxios from 'easy-tools-axios'
+import { useCommonStore } from 'stores/common'
+import { useUserStore } from 'stores/user'
 
 export const easyAxios = new EasyAxios(/** EasyAxios 配置项 */)
-  .create(axios, { baseURL: '/api' /** 其他的 axios 配置, 如果你自定义了必须实现相应的行为 */ }, qs)
+  .create(axios, {
+    baseURL: '/api' /** 其他的 axios 配置, 如果你自定义了必须实现相应的行为 */
+  }, qs)
   .useRequestInterceptors(
     config => {
       // 你可以处理 config 种 headers、data 相关数据
+      const { token } =  useUserStore()
+      config.headers['Authorization'] = token
       return config
     },
     error => {
@@ -16,7 +22,7 @@ export const easyAxios = new EasyAxios(/** EasyAxios 配置项 */)
   )
   .useResponseInterceptors(
     response => {
-      // 响应相关数据, 例如你可以在这里全局存储响应头的 Token 字段 (response.headers['authorization'])
+      // 响应相关数据
       return response
     },
     error => {
@@ -29,14 +35,8 @@ export const easyAxios = new EasyAxios(/** EasyAxios 配置项 */)
     resolve(response.data)
   })
   .useLoading(
-    () => {
-      // 控制你的 Loading 开启
-      console.log('--------------------- 开启 Loading')
-    },
-    () => {
-      // 控制你的 Loading 关闭
-      console.log('--------------------- 关闭 Loading')
-    }
+    () => useCommonStore().switchLoadingState(true),
+    () => useCommonStore().switchLoadingState(false)
   );
 
 export const request = easyAxios.request.bind(easyAxios)
