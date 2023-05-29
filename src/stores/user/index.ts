@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed, nextTick } from 'vue'
 import { useAuthrouteStore } from 'stores/authroute'
+import { getStorage, setStorage, removeStorage } from 'easy-tools-storage'
 import { userTokenStorageKey, userInfoStorageKey } from 'config/storage'
 import { defaultAfterLoginRoute, defaultAfterLogoutRoute } from 'config'
 import {
@@ -11,9 +12,9 @@ import {
 
 export const useUserStore = defineStore('user', () => {
   // Token
-  const token = ref<string>(sessionStorage.getItem(userTokenStorageKey) || '')
+  const token = ref<string>(getStorage('session', userTokenStorageKey) || '')
   // 用户信息
-  const userInfo = ref<Identity.IUserInfo | null>(JSON.parse(sessionStorage.getItem(userInfoStorageKey)))
+  const userInfo = ref<Identity.IUserInfo | null>(getStorage('session', userInfoStorageKey))
   // 用户是否登录
   const isLogged = computed<boolean>(() => !!token.value && !!userInfo.value)
   
@@ -27,7 +28,7 @@ export const useUserStore = defineStore('user', () => {
     if (
       await loginRequest(forms).then(({ data: { token: tokenRes } }) => {
         token.value = tokenRes
-        sessionStorage.setItem(userTokenStorageKey, tokenRes)
+        setStorage('session', userTokenStorageKey, tokenRes)
 
         return false
       }).catch(() => true)
@@ -37,7 +38,7 @@ export const useUserStore = defineStore('user', () => {
     if (
       await queryUserInfo().then(({ data }) => {
         userInfo.value = data
-        sessionStorage.setItem(userInfoStorageKey, JSON.stringify(data))
+        setStorage('session', userInfoStorageKey, data)
 
         return false
       }).catch(() => true)
@@ -66,8 +67,8 @@ export const useUserStore = defineStore('user', () => {
       userInfo: null
     }))
 
-    sessionStorage.removeItem(userTokenStorageKey)
-    sessionStorage.removeItem(userInfoStorageKey)
+    removeStorage('session', userTokenStorageKey)
+    removeStorage('session', userInfoStorageKey)
 
     console.log('已退出登录')
     nextTick(() => {
