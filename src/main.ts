@@ -1,10 +1,11 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import piniaPersist from 'pinia-plugin-persist'
 
 import App from './App.vue'
 import router from './router'
-import pluginComponents from 'plugins/components'
 
+import pluginComponents from 'plugins/components'
 import { storeExtendRouter, storeReset } from 'plugins/stores'
 import { useAuthrouteStore } from 'stores/authroute'
 
@@ -19,6 +20,7 @@ const pinia = createPinia()
 
 pinia.use(storeExtendRouter)
 pinia.use(storeReset)
+pinia.use(piniaPersist)
 app.use(pinia)
 useAuthrouteStore().addAuthRoutes()
 app.use(router)

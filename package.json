@@ -21,6 +21,7 @@
     "js-cookie": "^3.0.5",
     "lodash-es": "^4.17.21",
     "pinia": "^2.0.36",
+    "pinia-plugin-persist": "^1.0.0",
     "qs": "^6.11.1",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
