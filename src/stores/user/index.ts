@@ -84,7 +84,7 @@ export const useUserStore = defineStore('user', () => {
   persist: {
     enabled: true,
     strategies: [
-      { key: 'USER', storage: localStorage }
+      { key: 'USER_STORE', storage: localStorage }
     ]
   }
 })

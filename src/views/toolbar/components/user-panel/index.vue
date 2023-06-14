@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts" setup>
+import { Setting } from '@element-plus/icons-vue'
 import { useUserStore } from 'stores/user/index'
 
 const { logout: userStoreLogout } = useUserStore()
