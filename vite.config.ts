@@ -29,7 +29,12 @@ export default defineConfig(({ command, mode }) => {
         optimize: true
       }),
       AutoImport({
-        // imports: ['vue'],
+        include: [
+          /\.tsx?$/,
+          /\.vue$/,
+          /\.vue\?vue/
+        ],
+        imports: ['vue', 'vue-router', 'pinia'],
         resolvers: [
           ElementPlusResolver(),
           // 自动导入图标组件
@@ -39,9 +44,9 @@ export default defineConfig(({ command, mode }) => {
       }),
       Components({
         resolvers: [
-          ElementPlusResolver(),
           // 自动注册图标组件
-          IconsResolver({ enabledCollections: ['ep'] })
+          IconsResolver({ enabledCollections: ['ep'] }),
+          ElementPlusResolver(),
         ],
         dts: './components.d.ts'
       }),

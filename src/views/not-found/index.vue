@@ -1,5 +1,5 @@
 <template>
-  <div class="not-found-wrap">404 页面</div>
+  <div class="not-found-wrap d-f flex-ff-c flex-jc-c flex-ai-c">404 页面</div>
 </template>
 
 <script lang="ts" setup>

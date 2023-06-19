@@ -6,7 +6,11 @@ import App from './App.vue'
 import router from './router'
 
 import pluginComponents from 'plugins/components'
-import { storeExtendRouter, storeReset } from 'plugins/stores'
+import pluginIcons from 'plugins/icons'
+import {
+  storeExtendRouter as pluginStoreExtendRouter,
+  storeReset as pluginStoreReset
+} from 'plugins/stores'
 import { useAuthrouteStore } from 'stores/authroute'
 
 import 'styles/reset-default.css'
@@ -18,12 +22,13 @@ import 'styles/transition.scss'
 const app = createApp(App)
 const pinia = createPinia()
 
-pinia.use(storeExtendRouter)
-pinia.use(storeReset)
+pinia.use(pluginStoreExtendRouter)
+pinia.use(pluginStoreReset)
 pinia.use(piniaPersist)
 app.use(pinia)
 useAuthrouteStore().addAuthRoutes()
 app.use(router)
 app.use(pluginComponents)
+app.use(pluginIcons)
 
 app.mount('#app')

@@ -9,11 +9,11 @@ const componentNameRegexp = /(src|components|index|vue|tsx|\.|\/)/g
 
 export default {
   install(app: Vue.App) {
-    (Reflect.ownKeys(componentModules) as Array<string>).forEach((modulePath) => {
+    for (const [modulePath] of Object.entries(componentModules)) {
       if (componentPathRegexp.test(modulePath)) {
         const componentName = modulePath.replace(componentNameRegexp, '')
         app.component(componentName, componentModules[modulePath])
       }
-    })
+    }
   }
 }

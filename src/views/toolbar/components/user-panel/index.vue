@@ -1,13 +1,13 @@
 <template>
   <div class="user-panel-wrap">
     <el-icon color="#11171C" size="18" @click.stop="logout">
-      <Setting />
+      <Bicycle />
     </el-icon>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Setting } from '@element-plus/icons-vue'
+// import { Bicycle } from '@element-plus/icons-vue'
 import { useUserStore } from 'stores/user/index'
 
 const { logout: userStoreLogout } = useUserStore()

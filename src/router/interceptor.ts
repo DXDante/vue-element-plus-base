@@ -14,18 +14,29 @@ export const useGlobalInterceptor: IGlobalInterceptor = (router) => {
     const isMatched = !!toMatched.length
     const { isLogged: userStoreIsLogged } = storeToRefs(useUserStore())
 
-    // 1) 替换至登录, 并带上重定向路由地址(未匹配上地址 或 匹配鉴权集合需要鉴权, 且未登录时替换至登录)
-    if ((!isMatched || toMatched.some(record => record.meta.requiresAuth)) && !userStoreIsLogged.value) {
-      const query = isMatched ? { redirect: toName } : {}
-      return next(<VueRouter.RouteLocationRaw>({ replace: true, name: 'sign-in', query }))
-    }
-
-    // 2) 未匹配跳转 404
+    // 1) 未匹配跳转 404
     if (!isMatched) {
-      return next(<VueRouter.RouteLocationRaw>({ replace: true, name: 'not-found' }))
+      return next(<VueRouter.RouteLocationRaw>({
+        replace: true,
+        name: 'not-found'
+      }))
     }
 
-    // 3) 默认放行
+    // 2) 需要鉴权路由且未登录 (带上重定向路由地址)
+    if (toMatched.some(record => record.meta.requiresAuth) && !userStoreIsLogged.value) {
+      return next(<VueRouter.RouteLocationRaw>({
+        replace: true,
+        name: 'sign-in',
+        query: { redirect: toName }
+      }))
+    }
+
+    // 3) 已登录且为登录页
+    if (userStoreIsLogged.value && toName === 'sign-in') {
+      return next(<VueRouter.RouteLocationRaw>({ replace: true, name: 'main-home' }))
+    }
+
+    // 4) 默认放行
     next()
   })
 
