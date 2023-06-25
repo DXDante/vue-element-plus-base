@@ -10,6 +10,7 @@ interface IGlobalInterceptor {
 
 export const useGlobalInterceptor: IGlobalInterceptor = (router) => {
   router.beforeEach(async (to, from, next) => {
+    from;
     const { name: toName, matched: toMatched } = to
     const isMatched = !!toMatched.length
     const { isLogged: userStoreIsLogged } = storeToRefs(useUserStore())
@@ -41,8 +42,10 @@ export const useGlobalInterceptor: IGlobalInterceptor = (router) => {
   })
 
   router.afterEach(({ meta: toMeta }) => {
-    // 切换页面标题
-    (document as Document).title = toMeta.title as string
+    // 切换页面标题 (自定义任意替换规则 import.meta.env)
+    if (typeof toMeta.title == 'string' && toMeta.title != '') {
+      (document as Document).title = toMeta.title
+    }
   })
  }
  
