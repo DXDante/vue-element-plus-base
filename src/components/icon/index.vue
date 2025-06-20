@@ -3,9 +3,11 @@
 </template>
 
 <script setup lang="ts">
-
+defineOptions({
+  name: 'icon-index'
+})
 </script>
 
 <style lang="scss" scoped>
-@import "./index";
+@use "./index" as *;
 </style>

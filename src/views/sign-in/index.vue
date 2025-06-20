@@ -20,6 +20,10 @@
 import { useUserStore } from 'stores/user/index'
 import { useForm } from './hooks/use-form'
 
+defineOptions({
+  name: 'sign-in'
+})
+
 const { login: userStoreLogin } = useUserStore()
 const { formComponentRef, form, formRules, formValidate } = useForm()
 
@@ -33,5 +37,5 @@ const login = async () => {
 </script>
 
 <style lang="scss" scoped>
-@import "./index";
+@use "./index" as *;
 </style>

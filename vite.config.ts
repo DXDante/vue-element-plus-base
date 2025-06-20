@@ -2,8 +2,8 @@ import { defineConfig, loadEnv } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
-import DefineOptions from 'unplugin-vue-define-options/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
@@ -14,26 +14,23 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ /*command, */ mode }) => {
   // 根据当前工作目录中的 `mode` 加载 .env 文件
   // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    base: (env.NODE_ENV === 'production' ? './' : '/'),
+    base: env.NODE_ENV === 'production' ? './' : '/',
     plugins: [
       vue(),
-      DefineOptions(),
+      // DefineOptions(),
       vueJsx({
         transformOn: true,
         optimize: true
       }),
+      vueDevTools(),
       AutoImport({
-        include: [
-          /\.tsx?$/,
-          /\.vue$/,
-          /\.vue\?vue/
-        ],
+        include: [/\.tsx?$/, /\.vue$/, /\.vue\?vue/],
         imports: ['vue', 'vue-router', 'pinia'],
         resolvers: [
           ElementPlusResolver(),
@@ -43,16 +40,22 @@ export default defineConfig(({ command, mode }) => {
         dts: './auto-imports.d.ts'
       }),
       Components({
+        // allow auto load markdown components under `./src/components/`
+        extensions: ['vue', 'md'],
+        // allow auto import and register components used in markdown
+        include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
         resolvers: [
           // 自动注册图标组件
           IconsResolver({ enabledCollections: ['ep'] }),
-          ElementPlusResolver(),
+          ElementPlusResolver({
+            importStyle: 'sass', // 使用 sass 而不是 css
+            directives: true // 自动导入指令
+          })
         ],
         dts: './components.d.ts'
       }),
       Icons({
-        autoInstall: true,
-        compiler: 'vue3'
+        autoInstall: true
       }),
       visualizer(),
       // 按需导入且自定义主题时, 需要在使用的组件中导入对应的组件 SCSS, 如下(建议这样, 虽然麻烦但可减少打包样式的代码, 但你也可以不这样做)
@@ -65,32 +68,37 @@ export default defineConfig(({ command, mode }) => {
       preprocessorOptions: {
         scss: {
           // 定义自定义主题变量
-          additionalData: `@use "./styles/define-theme.scss" as *;`,
+          // @use "element-plus/theme-chalk/src/index.scss" as ep;
+          additionalData: `
+            @use "./styles/define-theme.scss" as *;
+          `,
+          api: 'modern-compiler'
         }
       }
     },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
-        'api': fileURLToPath(new URL('./src/api', import.meta.url)),
-        'assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
-        'components': fileURLToPath(new URL('./src/components', import.meta.url)),
-        'config': fileURLToPath(new URL('./src/config', import.meta.url)),
-        'hooks': fileURLToPath(new URL('./src/hooks', import.meta.url)),
-        'layout': fileURLToPath(new URL('./src/layout', import.meta.url)),
-        'mock': fileURLToPath(new URL('./src/mock', import.meta.url)),
-        'plugins': fileURLToPath(new URL('./src/plugins', import.meta.url)),
-        'router': fileURLToPath(new URL('./src/router', import.meta.url)),
-        'services': fileURLToPath(new URL('./src/services', import.meta.url)),
-        'stores': fileURLToPath(new URL('./src/stores', import.meta.url)),
-        'styles': fileURLToPath(new URL('./src/styles', import.meta.url)),
-        'typings': fileURLToPath(new URL('./src/typings', import.meta.url)),
-        'utils': fileURLToPath(new URL('./src/utils', import.meta.url)),
-        'views': fileURLToPath(new URL('./src/views', import.meta.url))
+        api: fileURLToPath(new URL('./src/api', import.meta.url)),
+        assets: fileURLToPath(new URL('./src/assets', import.meta.url)),
+        components: fileURLToPath(new URL('./src/components', import.meta.url)),
+        config: fileURLToPath(new URL('./src/config', import.meta.url)),
+        hooks: fileURLToPath(new URL('./src/hooks', import.meta.url)),
+        layout: fileURLToPath(new URL('./src/layout', import.meta.url)),
+        mock: fileURLToPath(new URL('./src/mock', import.meta.url)),
+        plugins: fileURLToPath(new URL('./src/plugins', import.meta.url)),
+        router: fileURLToPath(new URL('./src/router', import.meta.url)),
+        services: fileURLToPath(new URL('./src/services', import.meta.url)),
+        stores: fileURLToPath(new URL('./src/stores', import.meta.url)),
+        styles: fileURLToPath(new URL('./src/styles', import.meta.url)),
+        typings: fileURLToPath(new URL('./src/typings', import.meta.url)),
+        utils: fileURLToPath(new URL('./src/utils', import.meta.url)),
+        views: fileURLToPath(new URL('./src/views', import.meta.url))
       }
     },
     server: {
       host: true,
+      port: 5173,
       proxy: {
         '/api': {
           target: 'https://xxxx.cn/api/test',
@@ -100,8 +108,34 @@ export default defineConfig(({ command, mode }) => {
         }
       },
       hmr: {
-        overlay: false
+        overlay: false,
+        protocol: 'ws',
+        host: 'localhost'
+      },
+      fs: {
+        strict: false, // 解决 monorepo 潜在问题
+        allow: ['..'] // 允许访问上级目录
       }
+    },
+    build: {
+      chunkSizeWarningLimit: 1500,
+      cssCodeSplit: true,
+      minify: 'terser',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'element-plus': ['element-plus'],
+            vue: ['vue', 'vue-router', 'pinia']
+          },
+          entryFileNames: `assets/[name]-[hash].js`,
+          chunkFileNames: `assets/[name]-[hash].js`,
+          assetFileNames: `assets/[name]-[hash].[ext]`
+        }
+      }
+    },
+    optimizeDeps: {
+      include: ['vue', 'pinia', 'element-plus/es/components/message/style/css'],
+      exclude: ['vue-demi']
     }
   }
 })

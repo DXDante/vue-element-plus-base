@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import piniaPersist from 'pinia-plugin-persist'
+import { createPersistedState } from 'pinia-plugin-persistedstate'
 
 import App from './App.vue'
 import router from './router'
@@ -12,6 +12,7 @@ import {
   storeReset as pluginStoreReset
 } from 'plugins/stores'
 import { useAuthrouteStore } from 'stores/authroute'
+import { persistedStateMainKey } from 'config'
 
 import 'styles/reset-default.css'
 import 'styles/common.css'
@@ -24,7 +25,11 @@ const pinia = createPinia()
 
 pinia.use(pluginStoreExtendRouter)
 pinia.use(pluginStoreReset)
-pinia.use(piniaPersist)
+pinia.use(
+  createPersistedState({
+    key: (name) => `${persistedStateMainKey}${name}`
+  })
+)
 app.use(pinia)
 useAuthrouteStore().addAuthRoutes()
 app.use(router)

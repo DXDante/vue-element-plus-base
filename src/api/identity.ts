@@ -2,22 +2,24 @@
 
 /**
  * 登录
- * @param forms 
+ * @param forms
  * @return
  */
 export const login: Identity.ILogin = async (forms) => {
   /********** 测试代码 **********/
-  forms;
-  return new Promise(resolve => setTimeout(resolve, 1000, {
-    code: 200,
-    data: {
-      token: `TOKEN_${Date.now().toString()}`
-    },
-    message: '',
-    success: true
-  }))
+  console.log('登录表单:', forms)
+  return new Promise((resolve) =>
+    setTimeout(resolve, 1000, {
+      code: 200,
+      data: {
+        token: `TOKEN_${Date.now().toString()}`
+      },
+      message: '',
+      success: true
+    })
+  )
   /********** 测试代码 **********/
-  
+
   // return request({
   //   method: 'POST',
   //   interfacePath: '/api/login',
@@ -27,19 +29,21 @@ export const login: Identity.ILogin = async (forms) => {
 
 /**
  * 登出
- * @param forms 
+ * @param forms
  * @return
  */
 export const logout: Identity.ILogout = async () => {
   /********** 测试代码 **********/
-  return new Promise(resolve => setTimeout(resolve, 1000, {
-    code: 200,
-    data: null,
-    message: '',
-    success: true
-  }))
+  return new Promise((resolve) =>
+    setTimeout(resolve, 1000, {
+      code: 200,
+      data: null,
+      message: '',
+      success: true
+    })
+  )
   /********** 测试代码 **********/
-  
+
   // return request({
   //   method: 'POST',
   //   interfacePath: '/api/logout'
@@ -48,23 +52,25 @@ export const logout: Identity.ILogout = async () => {
 
 /**
  * 查询用户信息
- * @param 
+ * @param
  * @return
  */
 export const queryUserInfo: Identity.IQueryUserInfo = () => {
   /********** 测试代码 **********/
-  return new Promise(resolve => setTimeout(resolve, 1000, {
-    code: 200,
-    data: {
-      username: 'Dante',
-      phone: '15100001111',
-      id: Date.now()
-    },
-    message: '',
-    success: true
-  }))
+  return new Promise((resolve) =>
+    setTimeout(resolve, 1000, {
+      code: 200,
+      data: {
+        username: 'Dante',
+        phone: '18900001111',
+        id: Date.now()
+      },
+      message: '',
+      success: true
+    })
+  )
   /********** 测试代码 **********/
-  
+
   // return request({
   //   method: 'POST',
   //   interfacePath: '/api/getUserInfo'

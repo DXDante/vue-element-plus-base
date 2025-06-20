@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { baseRoutes } from './config'
 import useGlobalInterceptor from './interceptor'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: baseRoutes
 })
 
@@ -16,7 +16,7 @@ useGlobalInterceptor(router)
  * @param { Array<RouteRecordRaw> } routeConfigs 路由配置项
  */
 export const addRoutes: Identity.IAddRoutes = (routeConfigs) => {
-  return routeConfigs.map((route: VueRouter.RouteRecordRaw) => router.addRoute(route))
+  return routeConfigs.map((route) => router.addRoute(route))
 }
 
 export default router

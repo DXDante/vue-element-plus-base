@@ -3,9 +3,11 @@
 </template>
 
 <script lang="ts" setup>
-
+defineOptions({
+  name: 'not-found'
+})
 </script>
 
 <style lang="scss" scoped>
-@import "./index";
+@use "./index" as *;
 </style>

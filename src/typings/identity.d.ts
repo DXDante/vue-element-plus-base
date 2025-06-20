@@ -1,4 +1,3 @@
-
 /**
  * 用户身份 Identity
  */
@@ -8,8 +7,8 @@
  */
 // 帐号密码表单接口
 export interface ILoginFormsPhoneAndPassword {
-  phone: string;
-  password: string;
+  phone: string
+  password: string
 }
 
 // 登录返回

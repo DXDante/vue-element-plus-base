@@ -13,9 +13,13 @@ import { storeToRefs } from 'pinia'
 import { useUserStore } from 'stores/user/index'
 import UserPanel from './components/user-panel/index.vue'
 
+defineOptions({
+  name: 'tool-bar'
+})
+
 const { isLogged: userStoreIsLogged } = storeToRefs(useUserStore())
 </script>
 
 <style lang="scss" scoped>
-@import "./index";
+@use "./index" as *;
 </style>

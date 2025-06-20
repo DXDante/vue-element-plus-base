@@ -9,6 +9,10 @@
 import 'element-plus/es/components/button/style/index'
 import { useRouter } from 'vue-router'
 
+defineOptions({
+  name: 'artical-index'
+})
+
 const router = useRouter()
 const toHome = () => {
   router.replace({ name: 'main-home' })
@@ -16,5 +20,5 @@ const toHome = () => {
 </script>
 
 <style lang="scss" scoped>
-@import "./index";
+@use "./index" as *;
 </style>

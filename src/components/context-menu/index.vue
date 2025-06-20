@@ -5,9 +5,11 @@
 </template>
 
 <script setup lang="ts">
-
+defineOptions({
+  name: 'context-menu'
+})
 </script>
 
 <style lang="scss" scoped>
-@import "./index";
+@use "./index" as *;
 </style>

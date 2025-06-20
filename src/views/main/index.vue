@@ -10,8 +10,11 @@
 </template>
 
 <script lang="ts" setup>
+defineOptions({
+  name: 'main-index'
+})
 </script>
 
 <style lang="scss" scoped>
-@import "./index";
+@use "./index" as *;
 </style>

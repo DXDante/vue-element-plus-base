@@ -12,8 +12,12 @@
 
 <script lang="ts" setup>
 import Toolbar from 'views/toolbar/index.vue'
+
+defineOptions({
+  name: 'layout-index'
+})
 </script>
 
 <style lang="scss" scoped>
-@import "./index";
+@use "./index" as *;
 </style>

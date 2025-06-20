@@ -1,12 +1,10 @@
 import 'pinia'
 
 declare namespace ExtendPinia {
-  declare interface IStoreResetOriginalCallback {
-    (): Pinia.StateTree & Pinia.PiniaCustomStateProperties<Pinia.StateTree>
-  }
-  
   declare interface IStoreReset {
-    (originalCallback?: IStoreResetOriginalCallback): void
+    (
+      originalCallback?: () => Pinia.StateTree & Pinia.PiniaCustomStateProperties<Pinia.StateTree>
+    ): void
   }
 }
 

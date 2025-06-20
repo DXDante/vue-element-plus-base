@@ -24,11 +24,13 @@ export const storeReset: Pinia.PiniaPlugin = ({ store }) => {
     // 使用工厂函数重置指定数据(这可以重置为你理想最原始的数据)
     if (isFunction(originalCallback)) {
       const original = originalCallback()
-      if (!isPlainObject(original)) { return }
+      if (!isPlainObject(original)) {
+        return
+      }
 
       const cloneOriginal = cloneDeep(original)
-      for(const key in cloneOriginal) {
-        if (!(initialState.hasOwnProperty as Object["hasOwnProperty"])(key)) {
+      for (const key in cloneOriginal) {
+        if (!initialState.hasOwnProperty(key)) {
           delete cloneOriginal[key]
         }
       }
