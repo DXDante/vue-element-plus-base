@@ -98,15 +98,15 @@ export default defineConfig(({ /*command, */ mode }) => {
     },
     server: {
       host: true,
-      port: 5173,
-      proxy: {
-        '/api': {
-          target: 'https://xxxx.cn/api/test',
-          ws: true,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
-        }
-      },
+      port: 3000,
+      // proxy: {
+      //   '/api': {
+      //     target: 'https://xxxx.cn/api/test',
+      //     ws: true,
+      //     changeOrigin: true,
+      //     rewrite: (path) => path.replace(/^\/api/, '')
+      //   }
+      // },
       hmr: {
         overlay: false,
         protocol: 'ws',

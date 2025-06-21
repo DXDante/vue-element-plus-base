@@ -3,12 +3,13 @@ import qs from 'qs'
 import EasyAxios from 'easy-tools-axios'
 import { useCommonStore } from 'stores/common'
 import { useUserStore } from 'stores/user'
+import { baseUrl, tokenKey } from 'config/request'
 
 export const easyAxios = new EasyAxios(/** EasyAxios 配置项 */)
   .create(
     axios,
     {
-      baseURL: '/api' /** 其他的 axios 配置, 如果你自定义了必须实现相应的行为 */
+      baseURL: baseUrl /** 其他的 axios 配置, 如果你自定义了必须实现相应的行为 */
     },
     qs
   )
@@ -16,7 +17,7 @@ export const easyAxios = new EasyAxios(/** EasyAxios 配置项 */)
     (config) => {
       // 你可以处理 config 种 headers、data 相关数据
       const { token } = useUserStore()
-      config.headers!['Authorization'] = token
+      config.headers![tokenKey] = token
       return config
     },
     (error) => {
