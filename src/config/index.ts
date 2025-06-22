@@ -4,9 +4,9 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
  * 项目配置
  */
 
-export const debug = true
+export const debug = import.meta.env.VITE_DEBUG_MODE
 
-// Element-Plus 全局配置
+// Element-Plus 全局配置 TODO: 这里稍后更改可切换语言
 export const elementConfigProviderOptions = {
   locale: zhCn,
   // size: 'default',   // large, default, small

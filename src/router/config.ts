@@ -1,4 +1,3 @@
-
 /**
  * 基础路由
  */
@@ -16,14 +15,6 @@ export const baseRoutes = <VueRouter.RouteRecordRaw[]>[
       title: '登录'
     },
     component: () => import('views/sign-in/index.vue')
-  },
-  {
-    path: '/404',
-    name: 'not-found',
-    meta: {
-      title: '啊喔'
-    },
-    component: () => import('views/not-found/index.vue')
   }
 ]
 

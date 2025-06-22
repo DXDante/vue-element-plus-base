@@ -35,6 +35,7 @@
       "stores/*": ["src/stores/*"],
       "styles/*": ["./src/styles/*"],
       "typings/*": ["./src/typings/*"],
+      "typings": ["./src/typings/index.d.ts"],
       "utils/*": ["./src/utils/*"],
       "views/*": ["./src/views/*"]
     },

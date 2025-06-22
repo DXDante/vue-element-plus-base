@@ -10,7 +10,7 @@ import 'element-plus/es/components/button/style/index'
 import { useRouter } from 'vue-router'
 
 defineOptions({
-  name: 'artical-index'
+  name: 'main-artical'
 })
 
 const router = useRouter()

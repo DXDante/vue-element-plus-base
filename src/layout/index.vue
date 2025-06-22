@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import Toolbar from 'views/toolbar/index.vue'
+import Toolbar from './toolbar/index.vue'
 
 defineOptions({
   name: 'layout-index'

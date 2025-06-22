@@ -8,10 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, getCurrentInstance } from 'vue'
+import { onMounted } from 'vue'
 import { elementConfigProviderOptions as elementConfig } from 'config'
 import Layout from 'layout/index.vue'
-import Loading from 'views/loading/index.vue'
+import Loading from 'layout/loading/index.vue'
 
 // If you need define component options, like this
 defineOptions({
@@ -19,7 +19,6 @@ defineOptions({
 })
 
 onMounted(() => {
-  console.log('----- App 组件实例 ----- ', getCurrentInstance())
 })
 </script>
 

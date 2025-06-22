@@ -31,7 +31,7 @@ const { formComponentRef, form, formRules, formValidate } = useForm()
 const login = async () => {
   if (await formValidate()) {
     const { phone, password } = form
-    await userStoreLogin<Identity.ILoginFormsPhoneAndPassword>({ phone, password })
+    await userStoreLogin({ phone, password })
   }
 }
 </script>

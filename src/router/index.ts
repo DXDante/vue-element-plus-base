@@ -9,14 +9,19 @@ const router = createRouter({
 
 useGlobalInterceptor(router)
 
-// TODO: 考虑是否把已登录后鉴权的路由在 main.ts store 注册后调用
-
 /**
  * 添加路由
- * @param { Array<RouteRecordRaw> } routeConfigs 路由配置项
+ * @param routes 路由配置项
+ * @param parentRouteName ?父级路由名称 (默认添加根级)
  */
-export const addRoutes: Identity.IAddRoutes = (routeConfigs) => {
-  return routeConfigs.map((route) => router.addRoute(route))
+export const addRoutes = (
+  routes: VueRouter.RouteRecordRaw[],
+  parentRouteName?: string
+): Array<() => void> => {
+  if (parentRouteName && parentRouteName !== '') {
+    return routes.map((route) => router.addRoute(parentRouteName, route))
+  }
+  return routes.map((route) => router.addRoute(route))
 }
 
 export default router

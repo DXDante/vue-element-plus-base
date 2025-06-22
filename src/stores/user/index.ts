@@ -2,8 +2,9 @@ import { defineStore } from 'pinia'
 import { ref, computed, nextTick } from 'vue'
 import { useAuthrouteStore } from 'stores/authroute'
 import { defaultAfterLoginRoute, defaultAfterLogoutRoute } from 'config'
-import { login as loginRequest, logout as logoutRequest, queryUserInfo } from 'api/identity'
-import { debug } from 'config'
+import { login as loginRequest, logout as logoutRequest } from 'api/identity'
+import { queryUserInfo } from 'api/user'
+import { decodeRedirectQuery } from 'utils/redirectQuery'
 
 export const useUserStore = defineStore(
   'user',
@@ -11,17 +12,17 @@ export const useUserStore = defineStore(
     // Token
     const token = ref<string>('')
     // 用户信息
-    const userInfo = ref<Identity.IUserInfo | null>(null)
+    const userInfo = ref<UserGetUserInfoResponse | null>(null)
     // 用户是否登录
     const isLogged = computed<boolean>(() => !!token.value && !!userInfo.value)
 
     /**
      * 登录
-     * @param { Identity.ILoginFormsPhoneAndPassword } forms 登录参数
-     * @return Promise<boolean>
+     * @param forms 登录参数
+     * @return Promise<boolean> 是否成功
      */
-    const login: Identity.IUserStoreLogin = async (forms, toRouteRaw = defaultAfterLoginRoute) => {
-      // 1) 存储 Token
+    const login = async (forms: IdentityLoginRequest, toRouteRaw = defaultAfterLoginRoute) => {
+      // 1) 登录后存储 Token
       if (
         await loginRequest(forms)
           .then(({ data: { token: tokenRes } }) => {
@@ -49,19 +50,30 @@ export const useUserStore = defineStore(
 
       // 3) 添加鉴权路由(根据用户信息的权限相关数据进行 "鉴权路由" 的过滤)
       useAuthrouteStore().addAuthRoutes()
+      const { $router } = useUserStore()
 
-      if (debug) {
-        console.log('已登录, 自动跳转配置登录后路由:', toRouteRaw)
+      // 4) 重定向
+      // 跳转登录重定向路由
+      const { redirectPath } = $router.currentRoute.value.query
+      if (redirectPath) {
+        const redirectQuery = decodeRedirectQuery(
+          $router.currentRoute.value.query.redirectQuery as string
+        )
+        $router.replace({ path: redirectPath as string, query: redirectQuery })
       }
-      useUserStore().router.replace(toRouteRaw)
-
+      // 默认跳转"登录后配置路由"
+      else {
+        $router.replace(toRouteRaw)
+      }
       return true
     }
 
     /**
      * 退出登录
+     * @return Promise<boolean> 是否成功
      */
-    const logout: Identity.IUserStoreLogout = async (toRouteRaw = defaultAfterLogoutRoute) => {
+    const logout = async (toRouteRaw = defaultAfterLogoutRoute) => {
+      // 1) 调用退出登录
       if (
         await logoutRequest()
           .then(() => false)
@@ -70,19 +82,18 @@ export const useUserStore = defineStore(
         return false
       }
 
-      const { router, $reset } = useUserStore()
+      // 2) 重置所有需要清理的 store
+      const { $router, $reset } = useUserStore()
       $reset(() => ({
         token: '',
         userInfo: null
       }))
 
-      if (debug) {
-        console.log('已退出登录, 自动跳转配置登出后路由:', toRouteRaw)
-      }
-      nextTick(() => {
-        router.replace(toRouteRaw)
+      nextTick(async () => {
+        await $router.replace(toRouteRaw)
         // 销毁鉴权路由
-        setTimeout(() => useAuthrouteStore().destroyAuthRoutes())
+        useAuthrouteStore().destroyAuthRoutes()
+        console.log('ccccc', $router)
       })
 
       return true

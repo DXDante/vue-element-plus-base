@@ -5,12 +5,13 @@ import { useUserStore } from 'stores/user'
 
 export const useAuthrouteStore = defineStore('authroute', () => {
   // 鉴权路由管理
-  const authRouteManages: Identity.AuthRouteManage[] = []
+  const authRouteManages: Array<() => void> = []
 
   /**
    * 添加鉴权路由()
    */
-  const addAuthRoutes: Identity.IAddAuthRoutes = () => {
+  const addAuthRoutes = () => {
+    // 这里不需要转化为响应式, 因为每次访问都是获取的最新值
     const { isLogged: userStoreIsLogged /*, userInfo: userStoreUserInfo*/ } = useUserStore()
 
     if (userStoreIsLogged) {
@@ -25,7 +26,7 @@ export const useAuthrouteStore = defineStore('authroute', () => {
   /**
    * 销毁鉴权路由
    */
-  const destroyAuthRoutes: Identity.DestroyAuthRoutes = () => {
+  const destroyAuthRoutes = () => {
     while (authRouteManages.length) {
       authRouteManages.shift()
     }

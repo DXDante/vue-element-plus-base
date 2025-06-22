@@ -5,7 +5,7 @@
  * @param forms
  * @return
  */
-export const login: Identity.ILogin = async (forms) => {
+export const login = async <T>(forms: T): Promise<Http.IResponseBase<IdentityLoginResponse>> => {
   /********** 测试代码 **********/
   console.log('登录表单:', forms)
   return new Promise((resolve) =>
@@ -32,7 +32,7 @@ export const login: Identity.ILogin = async (forms) => {
  * @param forms
  * @return
  */
-export const logout: Identity.ILogout = async () => {
+export const logout = async (): Promise<Http.IResponseBase<IdentityLogoutResponse>> => {
   /********** 测试代码 **********/
   return new Promise((resolve) =>
     setTimeout(resolve, 1000, {
@@ -47,32 +47,5 @@ export const logout: Identity.ILogout = async () => {
   // return request({
   //   method: 'POST',
   //   interfacePath: '/api/logout'
-  // })
-}
-
-/**
- * 查询用户信息
- * @param
- * @return
- */
-export const queryUserInfo: Identity.IQueryUserInfo = () => {
-  /********** 测试代码 **********/
-  return new Promise((resolve) =>
-    setTimeout(resolve, 1000, {
-      code: 200,
-      data: {
-        username: 'Dante',
-        phone: '18900001111',
-        id: Date.now()
-      },
-      message: '',
-      success: true
-    })
-  )
-  /********** 测试代码 **********/
-
-  // return request({
-  //   method: 'POST',
-  //   interfacePath: '/api/getUserInfo'
   // })
 }

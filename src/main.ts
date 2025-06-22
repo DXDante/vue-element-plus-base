@@ -30,10 +30,12 @@ pinia.use(
     key: (name) => `${persistedStateMainKey}${name}`
   })
 )
+
 app.use(pinia)
-useAuthrouteStore().addAuthRoutes()
 app.use(router)
 app.use(pluginComponents)
 app.use(pluginIcons)
+
+useAuthrouteStore().addAuthRoutes()
 
 app.mount('#app')

@@ -10,7 +10,7 @@ import 'element-plus/es/components/button/style/index'
 import { useRouter } from 'vue-router'
 
 defineOptions({
-  name: 'home-index'
+  name: 'main-home'
 })
 
 const router = useRouter()
