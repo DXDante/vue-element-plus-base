@@ -15,7 +15,7 @@ defineOptions({
 
 const router = useRouter()
 const toArticle = () => {
-  router.replace({ name: 'main-article' })
+  router.push({ name: 'main-article' })
 }
 </script>
 

@@ -15,7 +15,7 @@ defineOptions({
 
 const router = useRouter()
 const toHome = () => {
-  router.replace({ name: 'main-home' })
+  router.push({ name: 'main-home' })
 }
 </script>
 

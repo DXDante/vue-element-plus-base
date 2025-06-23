@@ -1,13 +1,8 @@
 @charset "utf-8";
 
 .toolbar-wrap {
-  height: 0;
   flex: none;
   padding: 0 15px;
   background-color: rgba(0, 0, 0, 0.05);
   transition: height 0.25s;
-
-  &.expanded {
-    height: 36px;
-  }
 }

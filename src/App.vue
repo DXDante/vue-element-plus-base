@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { elementConfigProviderOptions as elementConfig } from 'config'
+import { elementConfigProviderOptions as elementConfig } from 'config/element'
 import Layout from 'layout/index.vue'
 import Loading from 'layout/loading/index.vue'
 
