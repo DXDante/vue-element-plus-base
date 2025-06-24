@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed, nextTick } from 'vue'
-import { useAuthrouteStore } from 'stores/authroute'
+import { ref, computed } from 'vue'
 import { defaultAfterLoginRoute, defaultAfterLogoutRoute } from 'config'
 import { login as loginRequest, logout as logoutRequest } from 'api/identity'
 import { queryUserInfo } from 'api/user'
@@ -48,11 +47,9 @@ export const useUserStore = defineStore(
         return false
       }
 
-      // 3) 添加鉴权路由(根据用户信息的权限相关数据进行 "鉴权路由" 的过滤)
-      useAuthrouteStore().addAuthRoutes()
       const { $router } = useUserStore()
 
-      // 4) 重定向
+      // 3) 重定向
       // 跳转登录重定向路由
       const { redirectPath } = $router.currentRoute.value.query
       if (redirectPath) {
@@ -89,12 +86,7 @@ export const useUserStore = defineStore(
         userInfo: null
       }))
 
-      nextTick(async () => {
-        await $router.replace(toRouteRaw)
-        // 销毁鉴权路由
-        useAuthrouteStore().destroyAuthRoutes()
-        console.log('ccccc', $router)
-      })
+      $router.replace(toRouteRaw)
 
       return true
     }
