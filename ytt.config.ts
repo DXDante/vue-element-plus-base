@@ -29,10 +29,10 @@ export default defineConfig([
       // 文件夹名称取 api-url 路径末尾 2 个
       const filePaths = interfaceInfo.path.split('/').slice(-2)
       // 按照分类生成
-      return `src/typings/api/${filePaths[0]}.d.ts`
+      return `src/types/api/${filePaths[0]}.d.ts`
       // 按照分类/具体接口的模式生成（文件数量会巨大）
       // const filePath = filePaths.map((item) => changeCase.camelCase(item)).join('/');
-      // return `src/typings/api/${filePath}.d.ts`;
+      // return `src/types/api/${filePath}.d.ts`;
     },
     // 生成 ts 文件中请求参数 interface 名称, 将下划线命名转换成 pascal 命名
     getRequestDataTypeName: (interfaceInfo, changeCase) => {

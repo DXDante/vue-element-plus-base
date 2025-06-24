@@ -3,15 +3,17 @@
     <div class="left bs-b d-f flex-ai-c"></div>
     <div class="center bs-b d-f flex-ai-c"></div>
     <div class="right bs-b d-f flex-ai-c">
+      <LangPanel />
       <UserPanel />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import UserPanel from './user-panel/index.vue'
+import LangPanel from './lang-panel/index.vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from 'stores/user/index'
-import UserPanel from './components/user-panel/index.vue'
 import { ref } from 'vue'
 
 defineOptions({

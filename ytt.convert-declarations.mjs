@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
  */
 
 // 配置常量
-const API_DIR = join(dirname(fileURLToPath(import.meta.url)), 'src/typings/api');
+const API_DIR = join(dirname(fileURLToPath(import.meta.url)), 'src/types/api');
 const FILE_EXTS = ['.ts', '.d.ts'];
 const EXPORT_REGEX = /^export\s+(interface|type|enum|class|const|let|var|function)/gm;
 

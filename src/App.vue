@@ -1,5 +1,5 @@
 <template>
-  <el-config-provider :locale="elementConfig.locale" :z-index="elementConfig.zIndex">
+  <el-config-provider v-bind="elementConfig">
     <div class="app-wrap bs-b">
       <Layout />
       <Loading />
@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { elementConfigProviderOptions as elementConfig } from 'config/element'
+import useElementConfig from 'config/element'
 import Layout from 'layout/index.vue'
 import Loading from 'layout/loading/index.vue'
 
@@ -17,6 +17,8 @@ import Loading from 'layout/loading/index.vue'
 defineOptions({
   name: 'app'
 })
+
+const { options: elementConfig } = useElementConfig()
 
 onMounted(() => {
 })

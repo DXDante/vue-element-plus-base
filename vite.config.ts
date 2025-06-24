@@ -91,9 +91,10 @@ export default defineConfig(({ /*command, */ mode }) => {
         services: fileURLToPath(new URL('./src/services', import.meta.url)),
         stores: fileURLToPath(new URL('./src/stores', import.meta.url)),
         styles: fileURLToPath(new URL('./src/styles', import.meta.url)),
-        typings: fileURLToPath(new URL('./src/typings', import.meta.url)),
+        types: fileURLToPath(new URL('./src/types', import.meta.url)),
         utils: fileURLToPath(new URL('./src/utils', import.meta.url)),
-        views: fileURLToPath(new URL('./src/views', import.meta.url))
+        views: fileURLToPath(new URL('./src/views', import.meta.url)),
+        node_modules: fileURLToPath(new URL('./node_modules', import.meta.url))
       }
     },
     server: {

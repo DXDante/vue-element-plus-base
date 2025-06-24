@@ -34,10 +34,11 @@
       "services": ["./src/services/index.ts"],
       "stores/*": ["src/stores/*"],
       "styles/*": ["./src/styles/*"],
-      "typings/*": ["./src/typings/*"],
-      "typings": ["./src/typings/index.d.ts"],
+      "types/*": ["./src/types/*"],
+      "types": ["./src/types/index.d.ts"],
       "utils/*": ["./src/utils/*"],
-      "views/*": ["./src/views/*"]
+      "views/*": ["./src/views/*"],
+      "node_modules/*": ["./node_modules/*"]
     },
     "resolveJsonModule": true, // 允许导入 JSON 文件
     "isolatedModules": true, // vite 编译器选项
@@ -54,7 +55,7 @@
       "ScriptHost"
     ],
     "types": ["vite/client", "element-plus/global", "unplugin-icons/types/vue"],
-    "typeRoots": ["./node_modules/@types", "./src/typings/index"],
+    "typeRoots": ["./node_modules/", "./src/types/index"],
     // 输出
     "sourceMap": true,
     "allowJs": true // 允许编译器编译 JS、JSX 文件
