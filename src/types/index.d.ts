@@ -17,6 +17,10 @@ declare global {
   namespace ElementPlus {
     export = ElementPlusTypes
 
+    export type ConfigProviderLocaleType = {
+      name: string
+      el: ElementPlusTypes.TranslatePair
+    }
     export type ConfigProviderSizeType = 'large' | 'default' | 'small'
     export type ConfigProviderButtonType = {
       type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'

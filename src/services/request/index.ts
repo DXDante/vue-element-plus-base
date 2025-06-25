@@ -35,7 +35,7 @@ export const easyAxios = new EasyAxios(/** EasyAxios 配置项 */)
       return error
     }
   )
-  .useStatusInterceptors(({ response, disableToast, resolve, reject }) => {
+  .useStatusInterceptors(({ response, /*disableToast,*/ resolve /*, reject*/ }) => {
     // disableToast;
     // reject;
     // 服务器端私有状态码的拦截, 控制你的响应使用以不同的 Promise 回调、全局的错误提示等等 (这里主要是你业务级的处理)

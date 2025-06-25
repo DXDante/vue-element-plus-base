@@ -6,7 +6,6 @@
 </template>
 
 <script lang="ts" setup>
-import 'element-plus/es/components/button/style/index'
 import { useRouter } from 'vue-router'
 
 defineOptions({

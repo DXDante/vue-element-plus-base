@@ -25,7 +25,7 @@ const viewTransitionSecondaryTime = computed(() => `${viewTransitionDuration.val
 const currentHistoryDirection = ref('forward')
 
 // 监听历史记录是否是后退, 后退则启用后退过渡模式
-router.options.history.listen(async (to, from, { direction }) => {
+router.options.history.listen(async (_to, _from, { direction }) => {
   currentHistoryDirection.value = direction
 })
 

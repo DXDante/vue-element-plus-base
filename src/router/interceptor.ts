@@ -7,7 +7,7 @@ import useAuthroute from 'services/useAuthroute'
 import { encodeRedirectQuery } from 'utils/redirectQuery'
 
 export const useGlobalInterceptor = (router: VueRouter.Router) => {
-  router.beforeEach(async (to, from, next) => {
+  router.beforeEach(async (to, _from, next) => {
     const { name: toName, path: toPath, query: toQuery, matched: toMatched } = to
     const isMatched = !!toMatched.length
     const { isLogged: userStoreIsLogged } = storeToRefs(useUserStore())

@@ -26,7 +26,7 @@ export const useForm = () => {
       { required: true, message: '请输入手机号码', trigger: 'blur' },
       { min: 11, max: 11, message: '请输入正确的手机号码(11位)', trigger: 'blur' },
       {
-        validator: (rule, value, callback) => {
+        validator: (_rule, value, callback) => {
           if (validatePhone(value)) {
             return callback()
           }
