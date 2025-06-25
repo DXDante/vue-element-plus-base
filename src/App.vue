@@ -1,5 +1,6 @@
 <template>
-  <el-config-provider v-bind="elementConfig">
+  <el-config-provider :locale="localeConfig" :size="sizeConfig" :z-index="zIndexConfig" :button="buttonConfig"
+    :link="linkConfig" :message="messageConfig">
     <div class="app-wrap bs-b">
       <Layout />
       <Loading />
@@ -18,7 +19,14 @@ defineOptions({
   name: 'app'
 })
 
-const { options: elementConfig } = useElementConfig()
+const {
+  locale: localeConfig,
+  size: sizeConfig,
+  zIndex: zIndexConfig,
+  button: buttonConfig,
+  link: linkConfig,
+  message: messageConfig
+} = useElementConfig()
 
 onMounted(() => {
 })

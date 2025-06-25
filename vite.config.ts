@@ -20,7 +20,7 @@ export default defineConfig(({ /*command, */ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    base: env.NODE_ENV === 'production' ? './' : '/',
+    base: env.VITE_PROJECT_BASE_URL,
     plugins: [
       vue(),
       // DefineOptions(),
@@ -57,7 +57,12 @@ export default defineConfig(({ /*command, */ mode }) => {
       Icons({
         autoInstall: true
       }),
-      visualizer(),
+      visualizer({
+        open: true,
+        filename: 'stats.html',
+        gzipSize: true,
+        brotliSize: true
+      }),
       // 按需导入且自定义主题时, 需要在使用的组件中导入对应的组件 SCSS, 如下(建议这样, 虽然麻烦但可减少打包样式的代码, 但你也可以不这样做)
       // 例如: import 'element-plus/es/components/button/style/index'
       ElementPlus({
@@ -93,8 +98,7 @@ export default defineConfig(({ /*command, */ mode }) => {
         styles: fileURLToPath(new URL('./src/styles', import.meta.url)),
         types: fileURLToPath(new URL('./src/types', import.meta.url)),
         utils: fileURLToPath(new URL('./src/utils', import.meta.url)),
-        views: fileURLToPath(new URL('./src/views', import.meta.url)),
-        node_modules: fileURLToPath(new URL('./node_modules', import.meta.url))
+        views: fileURLToPath(new URL('./src/views', import.meta.url))
       }
     },
     server: {
@@ -119,23 +123,24 @@ export default defineConfig(({ /*command, */ mode }) => {
       }
     },
     build: {
-      chunkSizeWarningLimit: 1500,
+      chunkSizeWarningLimit: 500,
       cssCodeSplit: true,
-      minify: 'terser',
+      minify: 'esbuild',
       rollupOptions: {
         output: {
           manualChunks: {
-            'element-plus': ['element-plus'],
-            vue: ['vue', 'vue-router', 'pinia']
+            // 这里将 vue 生态打包到一个 chunk 中, 必须先写 vue, 因为后者依赖了前者
+            vue: ['vue', 'vue-router', 'pinia'],
+            'element-plus': ['element-plus']
           },
           entryFileNames: `assets/[name]-[hash].js`,
           chunkFileNames: `assets/[name]-[hash].js`,
-          assetFileNames: `assets/[name]-[hash].[ext]`
+          assetFileNames: `assets/[name]-[hash].[extname]`
         }
       }
     },
     optimizeDeps: {
-      include: ['vue', 'pinia', 'element-plus/es/components/message/style/css'],
+      include: ['vue', 'vue-router', 'pinia'],
       exclude: ['vue-demi']
     }
   }

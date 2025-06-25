@@ -37,8 +37,7 @@
       "types/*": ["./src/types/*"],
       "types": ["./src/types/index.d.ts"],
       "utils/*": ["./src/utils/*"],
-      "views/*": ["./src/views/*"],
-      "node_modules/*": ["./node_modules/*"]
+      "views/*": ["./src/views/*"]
     },
     "resolveJsonModule": true, // 允许导入 JSON 文件
     "isolatedModules": true, // vite 编译器选项

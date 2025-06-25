@@ -1,38 +1,28 @@
-import { computed, reactive, readonly, ref } from 'vue'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import en from 'element-plus/es/locale/lang/en'
+import { computed, reactive, readonly, ref, toRefs } from 'vue'
 
-// 语言 - 选项 (加载模块通过 value 加载)
-const langUseNames = readonly([
+// 语言 - 模块集
+const langModules: Record<string, ElementPlus.ConfigProviderLocaleType> = {
+  'zh-cn': zhCn,
+  en: en
+}
+// 语言 - 选项
+const langUseList = readonly([
   { name: '简体中文', value: 'zh-cn' },
   { name: 'English', value: 'en' }
 ])
 // 语言 - 模块名称
-const langUseModuleNames = computed(() => langUseNames.map(({ value }) => value))
-// 语言 - 模块集
-const langModules = (() => {
-  const langOriginModules: Record<string, unknown> | null = import.meta.glob(
-    'node_modules/element-plus/es/locale/lang/*.mjs',
-    { eager: true }
-  )
-  const langNameRegexp = /(\/node_modules\/element-plus\/es\/locale\/lang\/|\.mjs)/g
-  const res: Record<string, unknown> = {}
-
-  for (const [pathName, pathModule] of Object.entries(langOriginModules)) {
-    const name = pathName.replace(langNameRegexp, '')
-    if (langUseModuleNames.value.includes(name)) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      res[name] = (pathModule as any).default
-    }
-  }
-
-  return res
-})()
-// 当前使用的语言
-const langCurrentUse = ref('zh-cn')
-// 当前使用的语言模块
+const langUseModuleNames = langUseList.map(({ value }) => value)
+// 语言 - 当前使用类型 (默认 zh-cn)
+const langCurrentUse = ref(langUseList[0].value)
+// 语言 - 当前使用类型输出
+const langCurrentUseOutput = readonly(langCurrentUse)
+// 语言 - 当前使用类型模块
 const langCurrentUseModule = computed(() => langModules[langCurrentUse.value])
 
-// Element-Plus 全局配置 (以下通过方法修改)
-const providerOptions = reactive({
+// Element-Plus 全局配置 (动态数据)
+const options = reactive<ElementPlus.ConfigProviderOptionsType>({
   size: 'default', // large, default, small
   zIndex: 21,
   // namespace: 'el',
@@ -58,12 +48,14 @@ const providerOptions = reactive({
   // valueOnClear: ''
 })
 
+const optionsOutput = readonly(toRefs(options))
+
 /**
  * 切换语言
  * @param lang 语言值
  */
 const switchLocaleConfig = (lang: string) => {
-  if (!langUseModuleNames.value.includes(lang)) {
+  if (!langUseModuleNames.includes(lang)) {
     return
   }
 
@@ -75,7 +67,7 @@ const switchLocaleConfig = (lang: string) => {
  * @param size 大小
  */
 const switchSizeConfig = (size: ElementPlus.ConfigProviderSizeType) => {
-  providerOptions.size = size
+  options.size = size
 }
 
 /**
@@ -83,7 +75,7 @@ const switchSizeConfig = (size: ElementPlus.ConfigProviderSizeType) => {
  * @param config 按钮配置
  */
 const switchButtonConfig = (config: ElementPlus.ConfigProviderButtonType) => {
-  Object.assign(providerOptions.button, config)
+  Object.assign(options.button!, config)
 }
 
 /**
@@ -91,7 +83,7 @@ const switchButtonConfig = (config: ElementPlus.ConfigProviderButtonType) => {
  * @param config 按钮配置
  */
 const switchLinkConfig = (config: ElementPlus.ConfigProviderLinkType) => {
-  Object.assign(providerOptions.link, config)
+  Object.assign(options.link!, config)
 }
 
 /**
@@ -99,14 +91,15 @@ const switchLinkConfig = (config: ElementPlus.ConfigProviderLinkType) => {
  * @param config 按钮配置
  */
 const switchMessageConfig = (config: ElementPlus.ConfigProviderMessageType) => {
-  Object.assign(providerOptions.message, config)
+  Object.assign(options.message!, config)
 }
 
 const useElementConfig = () => {
   return {
-    langUseNames,
-    langCurrentUse: computed(() => langCurrentUse.value),
-    options: computed(() => ({ ...providerOptions, locale: langCurrentUseModule })),
+    ...optionsOutput,
+    langUseList,
+    langCurrentUse: langCurrentUseOutput,
+    locale: langCurrentUseModule,
     switchLocaleConfig,
     switchSizeConfig,
     switchButtonConfig,

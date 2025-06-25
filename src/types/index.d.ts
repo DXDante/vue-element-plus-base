@@ -17,29 +17,24 @@ declare global {
   namespace ElementPlus {
     export = ElementPlusTypes
 
-    export type ConfigProviderLocaleType = {
-      name: string
-      el: ElementPlusTypes.TranslatePair
-    }
-    export type ConfigProviderSizeType = 'large' | 'default' | 'small'
-    export type ConfigProviderButtonType = {
-      type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text'
-      autoInsertSpace?: boolean
-      plain?: boolean
-      round?: boolean
-    }
-    export type ConfigProviderLinkType = {
-      type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'default'
-      underline?: 'always' | 'hover' | 'never' | boolean
-    }
-    export type ConfigProviderMessageType = {
-      max?: number
-      grouping?: boolean
-      duration?: number
-      showClose?: boolean
-      offset?: number
-      plain?: boolean
-    }
+    /******************** 扩展 Config Provider 组件类型 ********************/
+    export type ConfigProviderOptionsType = Mutate<ElementPlusTypes.ConfigProviderContext>
+    export type ConfigProviderLocaleType = NonNullable<
+      ValueType<Pick<ElementPlusTypes.ConfigProviderProps, 'locale'>, 'locale'>
+    >
+    export type ConfigProviderSizeType = NonNullable<
+      ValueType<Pick<ElementPlusTypes.ConfigProviderProps, 'size'>, 'size'>
+    >
+    export type ConfigProviderButtonType = NonNullable<
+      ValueType<Pick<ElementPlusTypes.ConfigProviderProps, 'button'>, 'button'>
+    >
+    export type ConfigProviderLinkType = NonNullable<
+      ValueType<Pick<ElementPlusTypes.ConfigProviderProps, 'link'>, 'link'>
+    >
+    export type ConfigProviderMessageType = NonNullable<
+      ValueType<Pick<ElementPlusTypes.ConfigProviderProps, 'message'>, 'message'>
+    >
+    /******************** 扩展 Config Provider 组件类型 ********************/
   }
   namespace Axios {
     export = AxiosTypes
