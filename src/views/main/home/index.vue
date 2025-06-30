@@ -1,7 +1,7 @@
 <template>
-  <div class="home-wrap component-wrap pd">
+  <div class="home-wrap component-wrap pd d-f flex-ff-c flex-ai-c">
     <h3>首页</h3>
-    <el-button class="btn" type="primary" round @click.stop="toArticle">跳转文章</el-button>
+    <el-button class="btn" style="margin-top: 50px;" type="primary" round @click.stop="toArticle">跳转文章</el-button>
   </div>
 </template>
 
