@@ -1,8 +1,7 @@
 <template>
-  <transition :name="nameValue" :class="classValue" :enter-from-class="transitionClass?.enterFromClass"
-    :enter-active-class="transitionClass?.enterActiveClass" :enter-to-class="transitionClass?.enterToClass"
-    :leave-from-class="transitionClass?.leaveFromClass" :leave-active-class="transitionClass?.leaveActiveClass"
-    :leave-to-class="transitionClass?.leaveToClass">
+  <transition :name="nameValue" :class="classValue" :enter-from-class="enterFromClass"
+    :enter-active-class="enterActiveClass" :enter-to-class="enterToClass" :leave-from-class="leaveFromClass"
+    :leave-active-class="leaveActiveClass" :leave-to-class="leaveToClass">
     <slot></slot>
   </transition>
 </template>
@@ -14,23 +13,31 @@ import { useRouter } from 'vue-router'
 
 /**
  * 穿梭 - 专门针对于定义路由组件转场动画特效
- * @property mode               转场动画模式, 内置两种(默认值: 'slide', 'slide'、'slide-zoom')
- * @property duration           持续时间(默认值: 160, 单位 ms, 这个值主要作用是后退效果完成后, 恢复前进的默认 class 标识, 也就是转场动画执行方向的标识, 不是控制过渡动效的时间, 动效时间是你自己 css 的时间)
- * @property slideSize          滑动距离, 内置转场动画页面组件滑动的距离(默认值: 80, 单位 px)
- * @property zoomSize           缩放尺寸, 内置转场动画页面组件缩放的尺寸(默认值: 0.96)
- * @property transitionClass    自定义的过渡类名集(Vue 内置 Transition 组件定义的过渡 class)
+ * @property mode                 转场动画模式, 内置两种(默认值: 'slide', 'slide'、'slide-zoom')
+ * @property duration             持续时间(默认值: 160, 单位 ms, 这个值主要作用是后退效果完成后, 恢复前进的默认 class 标识, 也就是转场动画执行方向的标识, 不是控制过渡动效的时间, 动效时间是你自己 css 的时间)
+ * @property slideSize            滑动距离, 内置转场动画页面组件滑动的距离(默认值: 80, 单位 px)
+ * @property zoomSize             缩放尺寸, 内置转场动画页面组件缩放的尺寸(默认值: 0.96)
+ * @property transitionClass      自定义的过渡类名集(默认值: undefined, Vue 内置 Transition 组件定义的过渡 class 类名)
+ *           {
+ *              enterFromClass,
+ *              enterActiveClass,
+ *              enterToClass,
+ *              leaveFromClass,
+ *              leaveActiveClass,
+ *              leaveToClass
+ *           }
  */
 defineOptions({
   name: 'shuttle-index'
 })
 
-const defaultSlideSize = 80
+const defaultSlideSize = 100
 const defaultZoomSize = 0.96
 
 // 为了兼容 3.4 及以下版本, 采用编译器宏来设置默认值
 const props = withDefaults(defineProps<IShuttleProps>(), {
   mode: 'slide',
-  duration: 160,
+  duration: 180,
   slideSize: defaultSlideSize,
   zoomSize: defaultZoomSize
 })
@@ -40,23 +47,23 @@ const {
   slideSize,
   zoomSize,
   transitionClass
-  // enterFromClass
-  // enterActiveClass
-  // enterToClass
-  // leaveFromClass
-  // leaveActiveClass
-  // leaveToClass
 } = toRefs(props)
 
 // 过渡方向 (forward 前进/ back 后退)
-const historyDirection = ref('forward')
+const direction = ref('forward')
 const nameValue = computed(() => transitionClass.value ? '' : mode.value)
-const classValue = computed(() => [historyDirection.value])
+const classValue = computed(() => [direction.value])
+// 自定义过渡类名
+const enterFromClass = computed(() => transitionClass.value?.enterFromClass)
+const enterActiveClass = computed(() => transitionClass.value?.enterActiveClass)
+const enterToClass = computed(() => transitionClass.value?.enterToClass)
+const leaveFromClass = computed(() => transitionClass.value?.leaveFromClass)
+const leaveActiveClass = computed(() => transitionClass.value?.leaveActiveClass)
+const leaveToClass = computed(() => transitionClass.value?.leaveToClass)
 // 滑动距离
 const slideDistance = computed(() => `${slideSize.value < 0 ? defaultSlideSize : slideSize.value}px`)
 // 缩放大小
 const zoomRatio = computed(() => (zoomSize.value < 0 || zoomSize.value > 1 ? defaultZoomSize : zoomSize.value))
-
 // 过渡主/次动画执行时间
 const mainTime = computed(() => `${duration.value}ms`)
 const secondaryTime = computed(() => `${duration.value * 0.85}ms`)
@@ -64,15 +71,15 @@ const secondaryTime = computed(() => `${duration.value * 0.85}ms`)
 const router = useRouter()
 
 // 监听历史记录是否是后退, 后退则启用后退过渡模式
-router.options.history.listen(async (_to, _from, { direction }) => {
-  historyDirection.value = direction
+router.options.history.listen(async (_to, _from, { direction: currentDirection }) => {
+  direction.value = currentDirection
 })
 
 router.afterEach(async () => {
   // 操作返回按钮进入后退过渡完成后恢复前进模式
-  if (historyDirection.value == 'back') {
+  if (direction.value == 'back') {
     await new Promise(resolve => setTimeout(resolve, duration.value))
-    historyDirection.value = 'forward'
+    direction.value = 'forward'
   }
 })
 
