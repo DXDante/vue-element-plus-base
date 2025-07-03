@@ -50,6 +50,24 @@ export const authRoutes = <VueRouter.RouteRecordRaw[]>[
           title: '文章'
         },
         component: () => import('views/main/article/index.vue')
+      },
+      {
+        path: 'information',
+        name: 'main-information',
+        meta: {
+          requiresAuth: true,
+          title: '表单示例(后续移除)'
+        },
+        component: () => import('views/main/information/index.vue')
+      },
+      {
+        path: 'dynamic-form-test',
+        name: 'main-dynamic-form-test',
+        meta: {
+          requiresAuth: true,
+          title: '动态表单测试'
+        },
+        component: () => import('views/main/dynamic-form-test/index.vue')
       }
     ]
   }
