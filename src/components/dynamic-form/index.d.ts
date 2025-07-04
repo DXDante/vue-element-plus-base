@@ -1,3 +1,5 @@
+import DynamicForm from './index.vue'
+
 export type FormModelProps = ValueType<Pick<Mutate<ElementPlus.FormProps>, 'model'>, 'model'>
 
 export type FormProps = Partial<Omit<Mutate<ElementPlus.FormProps>, 'rules' | 'model'>>
@@ -9,22 +11,22 @@ export type FormProps = Partial<Omit<Mutate<ElementPlus.FormProps>, 'rules' | 'm
 export type FormItemProps = Partial<Mutate<ElementPlus.FormItemProps>>
 
 /******************** 动态组件 props 类型 ********************/
-export type FormAutocompleteProps = Mutate<ElementPlus.AutocompleteProps>
-export type FormCascaderProps = typeof ElementPlus.cascaderProps
-export type FormCheckboxGroupProps = Mutate<ElementPlus.CheckboxGroupProps>
-export type FormCheckboxProps = ElementPlus.CheckboxProps
-export type FormCheckboxButtonProps = ElementPlus.CheckboxProps
-export type FormColorPickerProps = Mutate<ElementPlus.ColorPickerProps>
-export type FormDatePickerProps = Mutate<ElementPlus.DatePickerProps>
-export type FormDateTimePickerProps = Mutate<ElementPlus.DatePickerProps>
+export type FormAutocompleteProps = Partial<Mutate<ElementPlus.AutocompleteProps>>
+export type FormCascaderProps = Partial<typeof ElementPlus.cascaderProps>
+export type FormCheckboxGroupProps = Partial<Mutate<ElementPlus.CheckboxGroupProps>>
+export type FormCheckboxProps = Partial<ElementPlus.CheckboxProps>
+export type FormCheckboxButtonProps = Partial<ElementPlus.CheckboxProps>
+export type FormColorPickerProps = Partial<Mutate<ElementPlus.ColorPickerProps>>
+export type FormDatePickerProps = Partial<Mutate<ElementPlus.DatePickerProps>>
+export type FormDateTimePickerProps = Partial<Mutate<ElementPlus.DatePickerProps>>
 export type FormInputProps = Partial<Mutate<ElementPlus.InputProps>>
-export type FormInputNumberProps = Mutate<ElementPlus.InputNumberProps>
-export type FormInputTagProps = Mutate<ElementPlus.InputTagProps>
-export type FormMentionProps = ElementPlus.MentionProps
-export type FormRadioGroupProps = Mutate<ElementPlus.RadioGroupProps>
-export type FormRadioProps = Mutate<ElementPlus.RadioProps>
-export type FormRadioButtonProps = Mutate<ElementPlus.RadioButtonProps>
-export type FormRateProps = Mutate<ElementPlus.RateProps>
+export type FormInputNumberProps = Partial<Mutate<ElementPlus.InputNumberProps>>
+export type FormInputTagProps = Partial<Mutate<ElementPlus.InputTagProps>>
+export type FormMentionProps = Partial<ElementPlus.MentionProps>
+export type FormRadioGroupProps = Partial<Mutate<ElementPlus.RadioGroupProps>>
+export type FormRadioProps = Partial<Mutate<ElementPlus.RadioProps>>
+export type FormRadioButtonProps = Partial<Mutate<ElementPlus.RadioButtonProps>>
+export type FormRateProps = Partial<Mutate<ElementPlus.RateProps>>
 export type FormSelectProps = Partial<ElementPlus.SelectProps>
 export type FormOptionGroupProps = {
   label?: string
@@ -84,18 +86,21 @@ type OptionProps = Vue.ExtractPropTypes<{
 export type FormOptionProps = Partial<OptionProps>
 /***** 重定义 Element Plus Select 的 Option 组件 Props *****/
 export type FormSelectV2Props = Partial<Mutate<ElementPlus.SelectV2Props>>
-export type FormSliderProps = Mutate<ElementPlus.SliderProps>
-export type FormSwitchProps = Mutate<ElementPlus.SwitchProps>
-export type FormTimePickerProps = Mutate<ElementPlus.TimePickerDefaultProps>
-export type FormTimeSelectProps = Mutate<ElementPlus.TimeSelectProps>
-export type FormTransferProps = Mutate<ElementPlus.TransferProps>
-/****** TreeSelect 未添加类型 ******/
-export type FormUploadProps = Mutate<ElementPlus.UploadProps>
+export type FormSliderProps = Partial<Mutate<ElementPlus.SliderProps>>
+export type FormSwitchProps = Partial<Mutate<ElementPlus.SwitchProps>>
+export type FormTimePickerProps = Partial<Mutate<ElementPlus.TimePickerDefaultProps>>
+export type FormTimeSelectProps = Partial<Mutate<ElementPlus.TimeSelectProps>>
+export type FormTransferProps = Partial<Mutate<ElementPlus.TransferProps>>
+export type FormTreeSelectProps = Computed<
+  Partial<ElementPlus.TreeComponentProps> & FormSelectProps
+>
+export type FormUploadProps = Partial<Mutate<ElementPlus.UploadProps>>
 /******************** 动态组件 props 类型 ********************/
 
 export type FormIsProps =
   | FormAutocompleteProps
   | FormCascaderProps
+  | FormCheckboxGroupProps
   | FormCheckboxProps
   | FormCheckboxButtonProps
   | FormColorPickerProps
@@ -105,6 +110,7 @@ export type FormIsProps =
   | FormInputNumberProps
   | FormInputTagProps
   | FormMentionProps
+  | FormRadioGroupProps
   | FormRadioProps
   | FormRadioButtonProps
   | FormRateProps
@@ -117,6 +123,8 @@ export type FormIsProps =
   | FormTimePickerProps
   | FormTimeSelectProps
   | FormTransferProps
+  | FormTreeSelectProps
+  | FormUploadProps
 
 export type IsSubType = Omit<IDynamicComponentProps, 'modelValue' | 'isSlots'>
 
@@ -167,3 +175,5 @@ export interface IDynamicFormProps {
   formStyle?: Record<string, string>
   fields: IFormFields[]
 }
+
+export type DynamicFormInstance = InstanceType<typeof DynamicForm>

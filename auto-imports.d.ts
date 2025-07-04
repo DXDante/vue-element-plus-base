@@ -7,6 +7,11 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const ElInput: typeof import('element-plus/es')['ElInput']
+  const ElOption: typeof import('element-plus/es')['ElOption']
+  const ElOptionGroup: typeof import('element-plus/es')['ElOptionGroup']
+  const ElSelect: typeof import('element-plus/es')['ElSelect']
+  const ElSelectV2: typeof import('element-plus/es')['ElSelectV2']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
