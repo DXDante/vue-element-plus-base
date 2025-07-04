@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { IDynamicFormProps, FilteredFields } from './index'
+import type { IDynamicFormProps, FilteredFormFields } from './index'
 import { computed, ref, toRefs } from 'vue'
 import DynamicComponent from './dynamic-component.vue'
 // import { ElInput, ElSelectV2 } from 'element-plus'
@@ -60,9 +60,9 @@ const {
   fields
 } = toRefs(props)
 // 已过滤的字段集 (主要处理生成透传到 dynamic-component 里动态生成的表单组件内部的插槽名称)
-const filteredFields = computed<FilteredFields[]>(() => fields.value.map((item, index) => {
+const filteredFields = computed<FilteredFormFields[]>(() => fields.value.map((item, index) => {
   const _isPenetrateSlots = Array.isArray(item.isSlots) ? item.isSlots.map(slotName => `${item.is}-${item.formItemProps.prop || index}-${slotName}`) : []
-  item = { ...item, _isPenetrateSlots } as FilteredFields
+  item = { ...item, _isPenetrateSlots } as FilteredFormFields
   return item
 }))
 

@@ -118,9 +118,9 @@ export type FormIsProps =
   | FormTimeSelectProps
   | FormTransferProps
 
-export type IsSubType = Omit<IDynamicComponentProps, 'modelValue'>
+export type IsSubType = Omit<IDynamicComponentProps, 'modelValue' | 'isSlots'>
 
-export type FilteredFields = IFormFields & {
+export type FilteredFormFields = IFormFields & {
   _isPenetrateSlots?: string[]
 }
 
