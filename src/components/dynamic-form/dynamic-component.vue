@@ -4,8 +4,8 @@
     @update:modelValue="$emit('update:modelValue', $event)" v-bind="isProps" :class="isClass" :style="isStyle">
     <!-- -------- 动态组件 - 动态插槽 -------- -->
     <template v-for="(slotName) of isSlots ?? []" :key="`${is}-${formItemProp || formItemIndex}-${slotName}`"
-      #[slotName]>
-      <slot :name="`${is}-${formItemProp || formItemIndex}-${slotName}`">
+      #[slotName]="dynamicScope">
+      <slot :name="`${is}-${formItemProp || formItemIndex}-${slotName}`" v-bind="dynamicScope">
       </slot>
     </template>
     <!-- -------- 动态组件 - 动态插槽 -------- -->

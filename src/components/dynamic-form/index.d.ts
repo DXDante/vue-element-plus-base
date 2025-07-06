@@ -95,6 +95,8 @@ export type FormTreeSelectProps = Computed<
   Partial<ElementPlus.TreeComponentProps> & FormSelectProps
 >
 export type FormUploadProps = Partial<Mutate<ElementPlus.UploadProps>>
+export type FormButtonGroupProps = Partial<Mutate<Pick<ElementPlus.ButtonProps, 'size' | 'type'>>>
+export type FormButtonProps = Partial<Mutate<ElementPlus.ButtonProps>>
 /******************** 动态组件 props 类型 ********************/
 
 export type FormIsProps =
@@ -125,6 +127,38 @@ export type FormIsProps =
   | FormTransferProps
   | FormTreeSelectProps
   | FormUploadProps
+  | FormButtonGroupProps
+  | FormButtonProps
+
+export type FormIsType =
+  | 'el-autocomplete'
+  | 'el-cascader'
+  | 'el-checkbox-group'
+  | 'el-checkbox'
+  | 'el-checkbox-button'
+  | 'el-color-picker'
+  | 'el-date-picker'
+  | 'el-input'
+  | 'el-input-number'
+  | 'el-input-tag'
+  | 'el-mention'
+  | 'el-radio-group'
+  | 'el-radio'
+  | 'el-radio-button'
+  | 'el-rate'
+  | 'el-select'
+  | 'el-option-group'
+  | 'el-option'
+  | 'el-select-v2'
+  | 'el-slider'
+  | 'el-switch'
+  | 'el-time-picker'
+  | 'el-time-select'
+  | 'el-transfer'
+  | 'el-tree-select'
+  | 'el-upload'
+  | 'el-button-group'
+  | 'el-button'
 
 export type IsSubType = Omit<IDynamicComponentProps, 'modelValue' | 'isSlots'>
 
@@ -132,16 +166,16 @@ export type FilteredFormFields = IFormFields & {
   _isPenetrateSlots?: string[]
 }
 
-export type FormClass = string | string[] | Record<string, boolean>
+export type FormClassType = string | string[] | Record<string, boolean>
 
 export interface IDynamicComponentProps {
   modelValue?: unknown
   formItemProp?: ValueType<FormItemProps, 'prop'>
   formItemIndex?: number
-  is: ValueType<Pick<IFormFields, 'is'>, 'is'>
+  is: FormIsType
   isProps?: FormIsProps
   isSlots?: string[]
-  isClass?: FormClass
+  isClass?: FormClassType
   isStyle?: Record<string, string>
   isSubs?: IsSubType[]
 }
@@ -149,21 +183,21 @@ export interface IDynamicComponentProps {
 export interface IFormFields {
   formItemProps: FormItemProps
   formItemSlots?: string[]
-  formItemClass?: FormClass
+  formItemClass?: FormClassType
   formItemStyle?: Record<string, string>
-  is: 'el-input' | 'el-select-v2' | 'el-select' | 'el-option-group' | 'el-option'
+  is: FormIsType
   isProps?: FormIsProps
   isSlots?: string[]
-  isClass?: FormClass
+  isClass?: FormClassType
   isStyle?: Record<string, string>
   isSubs?: IsSubType[]
   formItemSubs?: IFormFields[]
   // TODO:
   // formItemSubWrapEl?: string
-  // formItemSubWrapElClass?: FormClass
+  // formItemSubWrapElClass?: FormClassType
   // formItemSubWrapElStyle?: Record<string, string>
   // formItemSubGapEl?: string
-  // formItemSubGapElClass?: FormClass
+  // formItemSubGapElClass?: FormClassType
   // formItemSubGapElStyle?: Record<string, string>
   // formItemSubGapElContent?: string
 }
@@ -171,7 +205,7 @@ export interface IFormFields {
 export interface IDynamicFormProps {
   formModelProps: FormModelProps
   formProps: FormProps
-  formClass?: FormClass
+  formClass?: FormClassType
   formStyle?: Record<string, string>
   fields: IFormFields[]
 }
