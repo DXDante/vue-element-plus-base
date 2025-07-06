@@ -8,18 +8,19 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    BackupContent: typeof import('./src/components/dynamic-form/backup-content.md')['default']
     ContextMenu: typeof import('./src/components/context-menu/index.vue')['default']
     DynamicComponent: typeof import('./src/components/dynamic-form/dynamic-component.vue')['default']
     DynamicForm: typeof import('./src/components/dynamic-form/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
+    ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     Icon: typeof import('./src/components/icon/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

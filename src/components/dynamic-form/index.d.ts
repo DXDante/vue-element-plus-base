@@ -185,7 +185,7 @@ export interface IFormFields {
   formItemSlots?: string[]
   formItemClass?: FormClassType
   formItemStyle?: Record<string, string>
-  is: FormIsType
+  is?: FormIsType
   isProps?: FormIsProps
   isSlots?: string[]
   isClass?: FormClassType

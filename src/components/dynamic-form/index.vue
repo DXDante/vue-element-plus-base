@@ -5,13 +5,13 @@
       :key="`form-item-${index}`" v-bind="item.formItemProps" :class="item.formItemClass" :style="item.formItemStyle">
       <!-- -------- form-item 动态插槽 -------- -->
       <template v-for="(slotName) of item.formItemSlots ?? []"
-        :key="`form-item-${item.formItemProps.prop || index}-${slotName}`" #[slotName]="formItemScope">
-        <slot :name="`form-item-${item.formItemProps.prop || index}-${slotName}`" v-bind="formItemScope"></slot>
+        :key="`el-form-item-${item.formItemProps.prop || index}-${slotName}`" #[slotName]="formItemScope">
+        <slot :name="`el-form-item-${item.formItemProps.prop || index}-${slotName}`" v-bind="formItemScope"></slot>
       </template>
       <!-- -------- form-item 动态插槽 -------- -->
       <template #default>
         <!-- @vue-ignore -->
-        <dynamic-component ref="formComponentsRef" v-model="formModelProps[item.formItemProps.prop]"
+        <dynamic-component v-if="item.is" ref="formComponentsRef" v-model="formModelProps[item.formItemProps.prop]"
           :form-item-prop="item.formItemProps.prop" :form-item-index="index" :is="item.is" :is-props="item.isProps"
           :is-slots="item.isSlots" :is-class="item.isClass" :is-style="item.isStyle" :is-subs="item.isSubs">
           <template v-for="(slotName) of item._isPenetrateSlots" :key="slotName" #[slotName]="dynamicTransScope">

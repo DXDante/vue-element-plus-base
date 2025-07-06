@@ -7,6 +7,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const ElCalendar: typeof import('element-plus/es')['ElCalendar']
   const ElInput: typeof import('element-plus/es')['ElInput']
   const ElOption: typeof import('element-plus/es')['ElOption']
   const ElOptionGroup: typeof import('element-plus/es')['ElOptionGroup']

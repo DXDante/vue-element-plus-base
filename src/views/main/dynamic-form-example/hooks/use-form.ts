@@ -3,18 +3,13 @@ import { computed, watch, reactive } from 'vue'
 
 export interface DynamicFormRule {
   name: string
-  count: string
   region: string
+  count: string
+  date1: string
+  date2: string
 }
 
 export const useForm = () => {
-  const countOptions = computed(() =>
-    Array.from({ length: 10000 }).map((_, idx) => ({
-      label: `${idx + 1}`,
-      value: `${idx + 1}`
-    }))
-  )
-
   const regionOptionGroups = computed<IsSubType[]>(() => [
     {
       is: 'el-option-group',
@@ -38,20 +33,36 @@ export const useForm = () => {
     }
   ])
 
+  const countOptions = computed(() =>
+    Array.from({ length: 10000 }).map((_, idx) => ({
+      label: `${idx + 1}`,
+      value: `${idx + 1}`
+    }))
+  )
+
   // 表单 - model 应该是可变的响应式数据
   const formModelProps = reactive<DynamicFormRule>({
     name: '',
+    region: '',
     count: '',
-    region: ''
+    date1: '',
+    date2: ''
   })
+
+  // 表单 - rules (可以在这里全局定义, 也可以在 IFormFields 字段中定义, 以下有示例, 当在动态组件 form-item 下自定义层级结构的表单时, 需要在这里定义, 因为 IFormFields 里无法定义)
+  const formPropRules = computed<ElementPlus.FormRules<DynamicFormRule>>(() => ({
+    date1: [{ required: true, message: '请选择日期', trigger: 'change' }],
+    date2: [{ required: true, message: '请选择时间', trigger: 'change' }]
+  }))
 
   // 表单 - props 应该是不可变的响应式数据
   const formProps = computed<FormProps>(() => ({
     labelWidth: 'auto',
-    statusIcon: true
-    // 组件派发的事件定义示例:
+    statusIcon: true,
+    rules: formPropRules.value
+    // 组件派发的事件定义示例(在所有组件 props 中定义, 以 on 开头且首字母大写):
     // onValidate: (prop: ElementPlus.FormItemProp, isValid: boolean, message: string) => {
-    //   console.log('dynamicForm emit 的 validate 事件:', prop, isValid, message)
+    //   console.log('dynamicForm emit validate event:', prop, isValid, message)
     // }
   }))
 
@@ -70,24 +81,9 @@ export const useForm = () => {
       is: 'el-input',
       isProps: {
         placeholder: '请输入姓名',
-        // suffixIcon: 'User',
         maxlength: 10
       },
       isSlots: ['suffix']
-    },
-    // 数量 - select-v2
-    {
-      formItemProps: {
-        label: '数量(select-v2)',
-        prop: 'count',
-        rules: [{ required: true, message: '请选择数量', trigger: 'change' }]
-      },
-      is: 'el-select-v2',
-      isProps: {
-        placeholder: '请选择数量',
-        options: countOptions.value
-      },
-      isSlots: ['header']
     },
     // 地区 - select
     {
@@ -103,8 +99,35 @@ export const useForm = () => {
       },
       isSlots: ['footer'],
       isSubs: regionOptionGroups.value
+    },
+    // 数量 - select-v2
+    {
+      formItemProps: {
+        label: '数量(select-v2)',
+        prop: 'count',
+        rules: [{ required: true, message: '请选择数量', trigger: 'change' }]
+      },
+      is: 'el-select-v2',
+      isProps: {
+        placeholder: '请选择数量',
+        options: countOptions.value
+      },
+      isSlots: ['header']
+    },
+    // 日期、时间组合
+    {
+      formItemProps: {
+        label: '日期时间选择',
+        required: true
+      },
+      formItemSlots: ['default']
     }
   ])
+
+  // 重置表单
+  const resetForm = (formRef: ElementPlus.FormInstance) => {
+    return formRef.resetFields()
+  }
 
   // 验证表单
   const validateForm = async (formRef: ElementPlus.FormInstance) => {
@@ -119,12 +142,13 @@ export const useForm = () => {
       .catch(() => false)
   }
 
-  watch(formModelProps, (to) => console.log('formModelProps:', { ...to }))
+  watch(formModelProps, (to) => console.log('formModelProps changed:', { ...to }))
 
   return {
     formModelProps,
     formProps,
     formFields,
+    resetForm,
     validateForm
   }
 }

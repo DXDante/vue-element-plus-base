@@ -21,7 +21,7 @@
     "axios": "^1.10.0",
     "date-fns": "^4.1.0",
     "easy-tools-axios": "^1.1.2",
-    "element-plus": "~2.10.2",
+    "element-plus": "~2.10.3",
     "js-cookie": "^3.0.5",
     "lodash-es": "^4.17.21",
     "pinia": "^3.0.3",

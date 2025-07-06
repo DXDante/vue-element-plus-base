@@ -19,8 +19,25 @@
         表单 region select 尾部插槽示例
       </template>
       <!---------- select 组件插槽示例 ---------->
+      <!---------- 当多个表单组件需要定义在行内或者一起时, 这里就用插槽, 并且验证表单组件的 rules 应该定义在 form 的 props 中, 见 hooks/use-form 中 formProps ---------->
+      <!---------- 由于该 form-item 项没有配置 prop 字段, 所以后备内容为渲染 form-item 的索引值 ---------->
+      <template #el-form-item-3-default>
+        <div class="d-f flex-ai-c flex-jc-c bs-b">
+          <el-form-item prop="date1" style="width: 50%;">
+            <el-date-picker v-model="formModelProps.date1" value-format="YYYY-MM-DD" aria-label="选择日期"
+              placeholder="请选择日期" style="width: 100%;" />
+          </el-form-item>
+          <div class="d-f flex-ai-c bs-b" style="margin: 0 10px;">-</div>
+          <el-form-item prop="date2" style="width: 50%">
+            <el-time-picker v-model="formModelProps.date2" value-format="HH:mm:ss" aria-label="选择时间" placeholder="请选择时间"
+              style="width: 100%" />
+          </el-form-item>
+        </div>
+      </template>
+      <!---------- 当多个表单组件需要定义在行内或者一起时, 这里就用插槽, 并且验证表单组件的 rules 应该定义在 form 的 props 中, 见 hooks/use-form 中 formProps ---------->
     </dynamic-form>
     <div class="btn-wrap bs-b">
+      <el-button class="btn" style="margin-top: 20px;" type="primary" round @click.stop="testReset">测试重置</el-button>
       <el-button class="btn" style="margin-top: 20px;" type="primary" round @click.stop="testSubmit">测试提交</el-button>
     </div>
   </div>
@@ -29,23 +46,29 @@
 <script lang="ts" setup>
 import type { DynamicFormInstance } from 'components/dynamic-form/index'
 import { onMounted, ref } from 'vue'
-import { useForm } from './useForm'
+import { useForm } from './hooks/use-form'
 
 defineOptions({
   name: 'form-test'
 })
 
 const dynamicFormRef = ref<DynamicFormInstance | null>(null)
-const { formModelProps, formProps, formFields, validateForm } = useForm()
+
+const { formModelProps, formProps, formFields, resetForm, validateForm } = useForm()
+
+// 测试重置
+const testReset = async () => {
+  resetForm(dynamicFormRef.value!.formRef as ElementPlus.FormInstance)
+}
 
 // 测试提交
 const testSubmit = async () => {
   if (!(await validateForm(dynamicFormRef.value!.formRef as ElementPlus.FormInstance))) { return }
-  console.log('校验完毕, 测试提交数据')
+  console.log('validate completed')
 }
 
 onMounted(() => {
-  console.log('动态表单渲染完成, 动态表单暴露的数据:', dynamicFormRef.value)
+  console.log('dynamic form rendering completed, data exposed by dynamic form:', dynamicFormRef.value)
 })
 
 </script>
