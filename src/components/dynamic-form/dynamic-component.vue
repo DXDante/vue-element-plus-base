@@ -1,7 +1,8 @@
 <template>
   <!-- @vue-ignore -->
-  <component v-if="dynamicFormComponent[is]" :is="dynamicFormComponent[is]" ref="componentRef" :modelValue="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)" v-bind="isProps" :class="isClass" :style="isStyle">
+  <component v-if="dynamicFormComponents[is]" :is="dynamicFormComponents[is]" ref="componentRef"
+    :modelValue="modelValue" @update:modelValue="$emit('update:modelValue', $event)" v-bind="isProps" :class="isClass"
+    :style="isStyle">
     <!-- -------- 动态组件 - 动态插槽 -------- -->
     <template v-for="(slotName) of isSlots ?? []" :key="`${is}-${formItemProp || formItemIndex}-${slotName}`"
       #[slotName]="dynamicScope">
@@ -23,7 +24,7 @@
 <script lang="ts" setup>
 import type { IDynamicComponentProps } from './index'
 import { ref, toRefs } from 'vue'
-import { dynamicFormComponent } from './dynamic-component-map'
+import { dynamicFormComponents } from './dynamic-component-map'
 
 defineOptions({
   name: 'dynamic-component'
@@ -34,9 +35,7 @@ defineEmits<{
 }>()
 
 const props = defineProps<IDynamicComponentProps>()
-
 const { modelValue, formItemProp, formItemIndex, is, isProps, isSlots, isClass, isStyle, isSubs } = toRefs(props)
-
 const componentRef = ref<unknown>(null)
 
 defineExpose({

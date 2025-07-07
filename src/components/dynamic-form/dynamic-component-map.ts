@@ -31,7 +31,7 @@ import {
   ElButton
 } from 'element-plus'
 
-export const dynamicFormComponent: Record<string, Component> = markRaw({
+export const dynamicFormConfig = {
   'el-autocomplete': ElAutocomplete,
   'el-cascader': ElCascader,
   'el-checkbox-group': ElCheckboxGroup,
@@ -60,4 +60,6 @@ export const dynamicFormComponent: Record<string, Component> = markRaw({
   'el-upload': ElUpload,
   'el-button-group': ElButtonGroup,
   'el-button': ElButton
-})
+}
+
+export const dynamicFormComponents: Record<string, Component> = markRaw(dynamicFormConfig)

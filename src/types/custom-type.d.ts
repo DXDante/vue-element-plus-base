@@ -7,3 +7,5 @@ declare type Mutate<T> = {
 }
 
 declare type ValueType<T, K> = K extends keyof T ? T[K] : never
+
+declare type ValueTypes<T> = T[keyof T]

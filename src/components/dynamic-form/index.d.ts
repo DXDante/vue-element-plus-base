@@ -1,4 +1,5 @@
 import DynamicForm from './index.vue'
+import { dynamicFormConfig } from './dynamic-component-map'
 
 export type FormModelProps = ValueType<Pick<Mutate<ElementPlus.FormProps>, 'model'>, 'model'>
 
@@ -191,8 +192,8 @@ export interface IFormFields {
   isClass?: FormClassType
   isStyle?: Record<string, string>
   isSubs?: IsSubType[]
-  formItemSubs?: IFormFields[]
   // TODO:
+  // formItemSubs?: IFormFields[]
   // formItemSubWrapEl?: string
   // formItemSubWrapElClass?: FormClassType
   // formItemSubWrapElStyle?: Record<string, string>
@@ -211,3 +212,5 @@ export interface IDynamicFormProps {
 }
 
 export type DynamicFormInstance = InstanceType<typeof DynamicForm>
+
+export type DynamicFormComponentsInstance = ValueTypes<typeof dynamicFormConfig>
