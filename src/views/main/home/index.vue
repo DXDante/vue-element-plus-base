@@ -3,7 +3,7 @@
     <h3>首页</h3>
     <div class="brn-wrap bs-b mt-30">
       <el-button class="btn" type="primary" round @click.stop="toArticle">跳转文章</el-button>
-      <el-button class="btn" type="primary" round @click.stop="toDynamicFormExample">跳转表单测试</el-button>
+      <el-button class="btn" type="primary" round @click.stop="toDynamicFormExample">跳转动态表单测试</el-button>
       <el-button class="btn" type="primary" round @click.stop="toBack">返回</el-button>
     </div>
   </div>

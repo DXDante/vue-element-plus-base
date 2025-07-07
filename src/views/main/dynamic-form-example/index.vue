@@ -1,5 +1,6 @@
 <template>
-  <div class="form-test-wrap component-wrap pd d-f flex-ff-c flex-ai-c">
+  <div class="dynamic-form-example-wrap component-wrap pd d-f flex-ff-c flex-ai-c">
+    <h4 class="page-name bs-b">动态表单示例</h4>
     <dynamic-form ref="dynamicFormRef" :form-model-props="formModelProps" :form-props="formProps" :fields="formFields"
       :form-style="{ width: '500px' }">
       <!---------- input 组件插槽示例 ---------->
@@ -20,15 +21,15 @@
       </template>
       <!---------- select 组件插槽示例 ---------->
       <!---------- 当多个表单组件需要定义在行内或者一起时, 这里就用插槽, 并且验证表单组件的 rules 应该定义在 form 的 props 中, 见 hooks/use-form 中 formProps ---------->
-      <!---------- 由于该 form-item 项没有配置 prop 字段, 所以后备内容为渲染 form-item 的索引值 ---------->
-      <template #el-form-item-3-default>
+      <!---------- 由于该 form-item 项没有配置 prop 字段, 所以后备内容为渲染 form-item 的索引值, 也可以定义一个任意 key 的 prop, 在 formModelProps 里对应声明并赋值, 值任意填写, 就可在这里使用对应名称的插槽 ---------->
+      <template #el-form-item-dateAndTime-default>
         <div class="d-f flex-ai-c flex-jc-c bs-b">
-          <el-form-item prop="date1" style="width: 50%;">
+          <el-form-item prop="date1" class="flex-item">
             <el-date-picker v-model="formModelProps.date1" value-format="YYYY-MM-DD" aria-label="选择日期"
               placeholder="请选择日期" style="width: 100%;" />
           </el-form-item>
           <div class="d-f flex-ai-c bs-b" style="margin: 0 10px;">-</div>
-          <el-form-item prop="date2" style="width: 50%">
+          <el-form-item prop="date2" class="flex-item">
             <el-time-picker v-model="formModelProps.date2" value-format="HH:mm:ss" aria-label="选择时间" placeholder="请选择时间"
               style="width: 100%" />
           </el-form-item>
@@ -49,7 +50,7 @@ import { onMounted, ref } from 'vue'
 import { useForm } from './hooks/use-form'
 
 defineOptions({
-  name: 'form-test'
+  name: 'dynamic-form-example'
 })
 
 const dynamicFormRef = ref<DynamicFormInstance | null>(null)
@@ -64,7 +65,9 @@ const testReset = async () => {
 // 测试提交
 const testSubmit = async () => {
   if (!(await validateForm(dynamicFormRef.value!.formRef as ElementPlus.FormInstance))) { return }
-  console.log('validate completed')
+  const { dateAndTime, ...submitData } = formModelProps
+  console.log('validate completed, exclude dateAndTime:', dateAndTime)
+  console.log('validate completed:', submitData)
 }
 
 onMounted(() => {
