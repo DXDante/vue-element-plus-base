@@ -3,7 +3,7 @@
  */
 import { storeToRefs } from 'pinia'
 import { useUserStore } from 'stores/user'
-import useAuthroute from 'services/useAuthroute'
+import useAuthRoute from 'services/use-auth-route'
 import { encodeRedirectQuery } from 'utils/redirectQuery'
 
 export const useGlobalInterceptor = (router: VueRouter.Router) => {
@@ -11,8 +11,12 @@ export const useGlobalInterceptor = (router: VueRouter.Router) => {
     const { name: toName, path: toPath, query: toQuery, matched: toMatched } = to
     const isMatched = !!toMatched.length
     const { isLogged: userStoreIsLogged } = storeToRefs(useUserStore())
-    const { canAddAuthRoute, canDestroyAuthRoute, addAuthRoutes, destroyAuthRoutes } =
-      useAuthroute()
+    const {
+      canAddAuthGlobalRoute,
+      canDestroyAuthGlobalRoute,
+      addAuthGlobalRoutes,
+      destroyAuthRoutes
+    } = useAuthRoute()
 
     // 1) 未登录
     if (!userStoreIsLogged.value) {
@@ -26,14 +30,14 @@ export const useGlobalInterceptor = (router: VueRouter.Router) => {
         } as VueRouter.RouteLocationRaw)
       }
       // 当鉴权路由内部状态为已添加时, 进行销毁 (只在退出登录跳转登录页时会调用)
-      if (canDestroyAuthRoute.value) {
+      if (canDestroyAuthGlobalRoute.value) {
         destroyAuthRoutes()
       }
     }
 
     // 2) 添加鉴权路由
-    if (canAddAuthRoute.value) {
-      addAuthRoutes()
+    if (canAddAuthGlobalRoute.value) {
+      addAuthGlobalRoutes()
       return next({ path: toPath, query: toQuery })
     }
 

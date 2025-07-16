@@ -1,27 +1,7 @@
 /**
- * 基础路由
+ * 鉴权路由 - 全局 (你可以在这个目录下创建其他根据用户权限设定的动态路由)
  */
-export const baseRoutes = <VueRouter.RouteRecordRaw[]>[
-  {
-    path: '/',
-    redirect: {
-      name: 'sign-in'
-    }
-  },
-  {
-    path: '/sign-in',
-    name: 'sign-in',
-    meta: {
-      title: '登录'
-    },
-    component: () => import('views/sign-in/index.vue')
-  }
-]
-
-/**
- * 鉴权路由
- */
-export const authRoutes = <VueRouter.RouteRecordRaw[]>[
+const authGlobalRoutes = <VueRouter.RouteRecordRaw[]>[
   {
     path: '/main',
     name: 'main',
@@ -63,3 +43,5 @@ export const authRoutes = <VueRouter.RouteRecordRaw[]>[
     ]
   }
 ]
+
+export default authGlobalRoutes

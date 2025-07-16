@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { baseRoutes } from './config'
+import baseRoutes from './config/base-routes-config'
 import useGlobalInterceptor from './interceptor'
 
 const router = createRouter({
