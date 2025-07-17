@@ -9,7 +9,7 @@
           <el-input type="password" v-model="form.password" maxlength="11" placeholder="请输入密码" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="login">登录</el-button>
+          <el-button type="primary" :loading="loggingIn" @click="login">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import { useUserStore } from 'stores/user/index'
 import { useForm } from './hooks/use-form'
+import { ref } from 'vue'
 
 defineOptions({
   name: 'sign-in'
@@ -26,12 +27,16 @@ defineOptions({
 
 const { login: userStoreLogin } = useUserStore()
 const { formComponentRef, form, formRules, formValidate } = useForm()
+const loggingIn = ref(false)
 
 // 登录
 const login = async () => {
+  if (loggingIn.value) { return }
   if (await formValidate()) {
+    loggingIn.value = true
     const { phone, password } = form
     await userStoreLogin({ phone, password })
+    loggingIn.value = false
   }
 }
 </script>

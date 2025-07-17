@@ -5,4 +5,5 @@ declare interface UserGetUserInfoResponse {
   username: string
   phone: string
   id: number
+  role: number
 }

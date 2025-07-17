@@ -10,8 +10,9 @@ export const queryUserInfo = (): Promise<Http.IResponseBase<UserGetUserInfoRespo
       code: 200,
       data: {
         username: 'Dante',
-        phone: '18900001111',
-        id: Date.now()
+        phone: '18900000001',
+        id: Date.now(),
+        role: 0
       },
       message: '',
       success: true

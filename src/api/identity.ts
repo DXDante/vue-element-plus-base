@@ -9,7 +9,7 @@ export const login = async <T>(forms: T): Promise<Http.IResponseBase<IdentityLog
   /********** 测试代码 **********/
   console.log('登录表单:', forms)
   return new Promise((resolve) =>
-    setTimeout(resolve, 1000, {
+    setTimeout(resolve, 50, {
       code: 200,
       data: {
         token: `TOKEN_${Date.now().toString()}`
@@ -35,7 +35,7 @@ export const login = async <T>(forms: T): Promise<Http.IResponseBase<IdentityLog
 export const logout = async (): Promise<Http.IResponseBase<IdentityLogoutResponse>> => {
   /********** 测试代码 **********/
   return new Promise((resolve) =>
-    setTimeout(resolve, 1000, {
+    setTimeout(resolve, 50, {
       code: 200,
       data: null,
       message: '',

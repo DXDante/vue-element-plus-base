@@ -1,78 +1,71 @@
 import { storeToRefs } from 'pinia'
 import { addRoutes } from 'router'
-import authGlobalRoutes from 'router/config/auth-routes-cofnig'
 import { useUserStore } from 'stores/user'
 import { computed, ref } from 'vue'
 
+// "全局鉴权路由"管理器
+const publicManages: Array<() => void> = []
+// "自定义鉴权路由"管理器
+const privateManages: Array<() => void> = []
+// 全局路由拦截器已添加判定
+const addedFlag = ref(false)
+// 是否可添加判定(用于路由拦截器中)
+let canAddAuthRoute: Vue.ComputedRef<boolean> | null = null
+// 是否可销毁判定(用于路由拦截器中)
+let canDestroyAuthRoute: Vue.ComputedRef<boolean> | null = null
+
+declare type Mode = 'public' | 'private'
+
 /**
- * 鉴权路由管理
+ * 添加鉴权路由
+ * @param mode                模式, public 表示用户公共路由权限, private 表示用户私有路由权限
+ * @param routes              动态路由集(路由配置最好定义 name 选项, 否则不易在使用时根据指定父路由添加子路由, 重复添加路由将会被内部替换)
+ * @param parentRouteName     父组件路由名称
+ * @returns
  */
-const authRouteManages: Array<() => void> = []
-const authRouteGlobalFlag = ref(false)
+const addAuthRoutes = (
+  mode: Mode,
+  routes: VueRouter.RouteRecordRaw[],
+  parentRouteName?: string
+) => {
+  const managers = mode === 'public' ? publicManages : privateManages
+  managers.push(...addRoutes(routes, parentRouteName))
+}
+
+/**
+ * 销毁鉴权路由
+ * @param mode                模式, public 表示用户公共路由权限, private 表示用户私有路由权限
+ * @returns
+ */
+const destroyAuthRoutes = (mode: Mode) => {
+  const managers = mode === 'public' ? publicManages : privateManages
+  while (managers.length) {
+    // 从头弹出并调用销毁路由
+    managers.shift()!()
+  }
+}
+
+/**
+ * 切换已添加判定
+ * @param value
+ */
+const switchAddedFlag = (value: boolean) => {
+  addedFlag.value = value
+}
 
 export default () => {
   // 这里不需要转化为响应式, 因为每次访问都是获取的最新值
   const { isLogged: userStoreIsLogged /*, userInfo: userStoreUserInfo*/ } =
     storeToRefs(useUserStore())
-  // 全局路由鉴权添加/销毁判定
-  const canAddAuthGlobalRoute = computed(
-    () => userStoreIsLogged.value && !authRouteGlobalFlag.value
-  )
-  const canDestroyAuthGlobalRoute = computed(
-    () => !userStoreIsLogged.value && authRouteGlobalFlag.value
-  )
-
-  /**
-   * 添加"全局鉴权路由"(注意只在路由全局拦截器 beforeEach 中使用)
-   */
-  const addAuthGlobalRoutes = () => {
-    if (!canAddAuthGlobalRoute.value) {
-      return
-    }
-
-    /********** 测试代码, 根据用户信息相关数据过滤你的鉴权路由 **********/
-    // userStoreUserInfo;
-    // authGlobalRoutes;
-    /********** 测试代码, 根据用户信息相关数据过滤你的鉴权路由 **********/
-    authRouteManages.splice(0, authRouteManages.length, ...addRoutes(authGlobalRoutes))
-    authRouteGlobalFlag.value = true
-  }
-
-  /**
-   * 添加"自定义鉴权路由"(注意只在路由全局拦截器 beforeEach 中使用) TODO: 稍后进行
-   */
-  const addAuthRoutes = (routes: VueRouter.RouteRecordRaw[], parentRouteName?: string) => {
-    if (!canAddAuthGlobalRoute.value) {
-      return
-    }
-
-    /********** 测试代码, 根据用户信息相关数据过滤你的鉴权路由 **********/
-    // userStoreUserInfo;
-    // authGlobalRoutes;
-    /********** 测试代码, 根据用户信息相关数据过滤你的鉴权路由 **********/
-    authRouteManages.splice(0, authRouteManages.length, ...addRoutes(routes, parentRouteName))
-    authRouteGlobalFlag.value = true
-  }
-
-  /**
-   * 销毁鉴权路由(所有)
-   */
-  const destroyAuthRoutes = () => {
-    if (!canDestroyAuthGlobalRoute.value) {
-      return
-    }
-    while (authRouteManages.length) {
-      // 从头弹出并调用销毁路由
-      authRouteManages.shift()!()
-    }
-    authRouteGlobalFlag.value = false
-  }
+  canAddAuthRoute = canAddAuthRoute || computed(() => userStoreIsLogged.value && !addedFlag.value)
+  canDestroyAuthRoute =
+    canDestroyAuthRoute || computed(() => !userStoreIsLogged.value && addedFlag.value)
 
   return {
-    canAddAuthGlobalRoute,
-    canDestroyAuthGlobalRoute,
-    addAuthGlobalRoutes,
+    canAddAuthRoute,
+    canDestroyAuthRoute,
     addAuthRoutes,
-    destroyAuthRoutes
+    destroyAuthRoutes,
+    switchAddedFlag
   }
 }
