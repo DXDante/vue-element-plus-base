@@ -40,8 +40,8 @@ const options = reactive<ElementPlus.ConfigProviderOptionsType>({
     max: 10,
     grouping: false,
     duration: 2500,
-    showClose: true,
-    offset: 20,
+    showClose: false,
+    offset: 16,
     plain: false
   }
   // emptyValues: [],

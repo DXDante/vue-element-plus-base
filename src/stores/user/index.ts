@@ -4,6 +4,7 @@ import { defaultAfterLoginRoute, defaultAfterLogoutRoute } from 'config'
 import { login as loginRequest, logout as logoutRequest } from 'api/identity'
 import { queryUserInfo } from 'api/user'
 import { decodeRedirectQuery } from 'utils/redirectQuery'
+import { ElMessage } from 'element-plus'
 
 export const useUserStore = defineStore(
   'user',
@@ -47,6 +48,7 @@ export const useUserStore = defineStore(
         return false
       }
 
+      ElMessage.success({ message: '登录成功' })
       const { $router } = useUserStore()
 
       // 3) 重定向
@@ -78,6 +80,8 @@ export const useUserStore = defineStore(
       ) {
         return false
       }
+
+      ElMessage.success({ message: '退出登录成功' })
 
       // 2) 重置所有需要清理的 store
       const { $router, $reset } = useUserStore()
