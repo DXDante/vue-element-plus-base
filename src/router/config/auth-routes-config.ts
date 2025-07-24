@@ -36,9 +36,18 @@ const authGlobalRoutes = <VueRouter.RouteRecordRaw[]>[
         name: 'main-dynamic-form-example',
         meta: {
           requiresAuth: true,
-          title: '动态表单测试'
+          title: '动态表单示例'
         },
-        component: () => import('@/views/main/dynamic-form-example/index.vue')
+        component: () => import('views/main/example-dynamic-form/index.vue')
+      },
+      {
+        path: 'virtualized-table-official-example',
+        name: 'main-virtualized-table-official-example',
+        meta: {
+          requiresAuth: true,
+          title: '虚拟表格批量编辑示例(10W 数据)'
+        },
+        component: () => import('views/main/example-virtualized-table-official/index.vue')
       }
     ]
   }

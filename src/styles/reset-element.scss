@@ -1,3 +1,12 @@
 @charset "utf-8";
 
 /*** 重置 element 样式 ***/
+.el-checkbox {
+  // checkbox 配合 loading 使用
+  .el-loading-mask {
+    background-color: transparent;
+  }
+  .el-loading-spinner .circular {
+    width: 100%;
+  }
+}

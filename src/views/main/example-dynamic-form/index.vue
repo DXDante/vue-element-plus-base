@@ -1,5 +1,5 @@
 <template>
-  <div class="dynamic-form-example-wrap component-wrap pd d-f flex-ff-c flex-ai-c">
+  <div class="example-dynamic-form-wrap component-wrap pd d-f flex-ff-c flex-ai-c">
     <h4 class="page-name bs-b">动态表单示例</h4>
     <dynamic-form ref="dynamicFormRef" :form-model-props="formModelProps" :form-props="formProps" :fields="formFields"
       :form-style="{ width: '500px' }">

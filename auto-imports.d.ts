@@ -21,6 +21,7 @@ declare global {
   const ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
   const ElInputTag: typeof import('element-plus/es')['ElInputTag']
   const ElMention: typeof import('element-plus/es')['ElMention']
+  const ElMessage: typeof import('element-plus/es')['ElMessage']
   const ElOption: typeof import('element-plus/es')['ElOption']
   const ElOptionGroup: typeof import('element-plus/es')['ElOptionGroup']
   const ElRadio: typeof import('element-plus/es')['ElRadio']
