@@ -17,15 +17,17 @@
 </template>
 
 <script lang="tsx" setup>
-import type { InputCellProps, CheckboxCellProps, InputHandlersType, CheckboxHandlersType } from './index'
+import type { InputCellProps, CheckboxCellProps } from './index'
 import { computed, onMounted, readonly, ref, toRaw, withKeys } from 'vue'
 import { ElInput, ElCheckbox, ElMessage } from 'element-plus'
+import { useHandlerCache } from './hooks/use-handler-cache'
 
 defineOptions({
   name: 'example-virtualized-table-official'
 })
 
 const handlerCacheMaxSize = 30
+const { inputHandlerCache, checkboxHandlerCache } = useHandlerCache()
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) => {
   return Array.from({ length }).map((_, columnIndex, resource) => {
@@ -82,9 +84,6 @@ const InputCell: Vue.FunctionalComponent<InputCellProps> = ({
     />
   )
 }
-
-// 表格 - 编辑项缓存处理器
-const inputHandlerCache = new Map<any, InputHandlersType>()
 
 const columns: ElementPlus.Column<unknown>[] = generateColumns(10, 'column-', {
   align: 'center'
@@ -160,9 +159,6 @@ const CheckboxCell: Vue.FunctionalComponent<CheckboxCellProps> = ({
     />
   )
 }
-
-// 表格 - 选择项缓存处理器
-const checkboxHandlerCache = new Map<any, CheckboxHandlersType>()
 
 const onRowCheckboxAllChange = async (value: ElementPlus.CheckboxValueType) => {
   console.time('###')
