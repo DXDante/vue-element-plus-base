@@ -1,6 +1,6 @@
 <template>
   <div class="example-virtualized-table-official-wrap component-wrap pd d-f flex-ff-c flex-ai-s">
-    <h3 class="title bs-b ta-c">Element 虚拟表格组件(官方)批量处理数据示例</h3>
+    <h3 class="title bs-b ta-c">虚拟表格批量编辑示例(10W 数据) + 处理数据、事件缓存等优化(见源码)</h3>
     <div class="action-wrap bs-b d-f flex-jc-c flex-ai-c">
       <el-input class="edit-ipt" v-model="textRef" v-bind="textPropConfigs" />
       <el-button class="btn" type="primary" round @click.stop="batchUpdateData()">批量操作数据</el-button>
@@ -17,13 +17,15 @@
 </template>
 
 <script lang="tsx" setup>
-import type { InputCellProps, CheckboxCellProps } from './index'
+import type { InputCellProps, CheckboxCellProps, InputHandlersType, CheckboxHandlersType } from './index'
 import { computed, onMounted, readonly, ref, toRaw, withKeys } from 'vue'
 import { ElInput, ElCheckbox, ElMessage } from 'element-plus'
 
 defineOptions({
-  name: 'test-table'
+  name: 'example-virtualized-table-official'
 })
+
+const handlerCacheMaxSize = 30
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) => {
   return Array.from({ length }).map((_, columnIndex, resource) => {
@@ -81,19 +83,8 @@ const InputCell: Vue.FunctionalComponent<InputCellProps> = ({
   )
 }
 
-const onRowEnterEditMode = ({ rowData }: any) => {
-  // , column
-  rowData.editing = true
-}
-
-const onRowExitEditMode = ({ rowData }: any) => {
-  // , column
-  rowData.editing = false
-}
-
-const onRowInputChange = ({ rowData, column }: any, value: string) => {
-  rowData[column.dataKey!] = value
-}
+// 表格 - 编辑项缓存处理器
+const inputHandlerCache = new Map<any, InputHandlersType>()
 
 const columns: ElementPlus.Column<unknown>[] = generateColumns(10, 'column-', {
   align: 'center'
@@ -103,8 +94,28 @@ const columns: ElementPlus.Column<unknown>[] = generateColumns(10, 'column-', {
 columns[0] = {
   ...columns[0],
   title: '固定列头(可编辑)',
-  cellRenderer: ({ rowData, column, ...others }) => {
-    // console.log('编辑 - 单元格 cellRenderer')
+  cellRenderer: (params) => {
+    const { rowData, column/*, ...others*/ } = params
+    // console.log('edit - cell cellRenderer:', others.rowIndex)
+
+    let handlers = inputHandlerCache.get(rowData)
+    if (!handlers) {
+      handlers = {
+        onRowEnterEditMode: () => {
+          rowData.editing = true
+        },
+        onRowExitEditMode: () => {
+          rowData.editing = false
+        },
+        onRowInputChange: (value: string) => {
+          rowData[column.dataKey!] = value
+        }
+      }
+      if (inputHandlerCache.size >= handlerCacheMaxSize) {
+        inputHandlerCache.delete(inputHandlerCache.keys().next().value)
+      }
+      inputHandlerCache.set(rowData, handlers)
+    }
 
     if (rowData.editing) {
       // const input = ref<ElementPlus.InputInstance | null>(null)
@@ -120,15 +131,15 @@ columns[0] = {
         <InputCell
           forwardRef={setRef}
           value={rowData[column.dataKey!]}
-          onChange={(...rest) => onRowInputChange({ rowData, column, ...others }, ...rest)}
-          onBlur={() => onRowExitEditMode({ rowData, column, ...others })}
-          onKeydownEnter={() => onRowExitEditMode({ rowData, column, ...others })}
+          onChange={handlers.onRowInputChange}
+          onBlur={handlers.onRowExitEditMode}
+          onKeydownEnter={handlers.onRowExitEditMode}
         />
       )
     }
 
     return (
-      <div class="table-v2-inline-editing-trigger not-select" onDblclick={() => onRowEnterEditMode({ rowData, column, ...others })} >
+      <div class="table-v2-inline-editing-trigger not-select" onDblclick={handlers.onRowEnterEditMode} >
         {rowData[column.dataKey!]}
       </div>
     )
@@ -150,10 +161,8 @@ const CheckboxCell: Vue.FunctionalComponent<CheckboxCellProps> = ({
   )
 }
 
-const onRowCheckboxChange = ({ rowData }: any, value: ElementPlus.CheckboxValueType) => {
-  // , column
-  rowData.checked = value
-}
+// 表格 - 选择项缓存处理器
+const checkboxHandlerCache = new Map<any, CheckboxHandlersType>()
 
 const onRowCheckboxAllChange = async (value: ElementPlus.CheckboxValueType) => {
   console.time('###')
@@ -170,17 +179,33 @@ columns.unshift({
   width: 36,
   fixed: 'left' as ElementPlus.TableV2FixedDir,
   align: 'center',
-  cellRenderer: ({ rowData, column, ...others }) => {
-    // console.log('选择 - 单元格 cellRenderer')
+  cellRenderer: (params) => {
+    const { rowData/*, column, ...others*/ } = params
+    // console.log('checkbox - cell cellRenderer:', others.rowIndex)
+
+    let handlers = checkboxHandlerCache.get(rowData)
+    if (!handlers) {
+      handlers = {
+        onRowCheckboxChange: (value: ElementPlus.CheckboxValueType) => {
+          rowData.checked = value
+        }
+      }
+      if (checkboxHandlerCache.size >= handlerCacheMaxSize) {
+        checkboxHandlerCache.delete(checkboxHandlerCache.keys().next().value)
+      }
+      checkboxHandlerCache.set(rowData, handlers)
+    }
+
     return (
       <CheckboxCell
         value={rowData.checked}
-        onChange={(value) => onRowCheckboxChange({ rowData, column, ...others }, value)}
+        onChange={handlers.onRowCheckboxChange}
       />
     )
   },
   headerCellRenderer: () => {
-    // console.log('全选 - 单元格 headerCellRenderer')
+    // console.log('checkboxAll - cell headerCellRenderer')
+
     return (
       <CheckboxCell
         value={dataAllSelected.value}
@@ -213,8 +238,8 @@ const batchUpdateData = async (keys: string[] = ['column-0', 'column-1', 'column
 
   console.time('###')
   const newValue = textRef.value
-  // 1) 响应式数据直接循环更改选中数据的属性(如果你明白 Vue 响应式原理就知道为什么) - 10W 条数据 280ms
-  // 2) 循环原始数据最快(不涉及到代理属性被访问时调用大量函数) - 10W 条数据 10 ~ 14ms
+  // 1) 响应式数据直接循环更改选中数据的属性(如果你明白 Vue 响应式原理就知道为什么) - 10W 条数据, 空闲操作 280ms
+  // 2) 循环原始数据最快(不涉及到代理属性被访问时调用大量函数) - 10W 条数据, 空闲操作 10ms ~ 15ms, 及时操作 <= 100ms (设备性能有关)
   //    同样创建的新数组, map 循环创建的 item 生成的数据 比 初始化数组空间数据, 然后再挨个插入新数据更快
   //    不能直接修源数据再赋值到响应式数据替换(会报错), 通过 map 完全新建数据并返回新数组赋值最快
   const newData = toRaw(dataRef.value).map(item => {

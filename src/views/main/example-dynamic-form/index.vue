@@ -50,7 +50,7 @@ import { onMounted, ref } from 'vue'
 import { useForm } from './hooks/use-form'
 
 defineOptions({
-  name: 'dynamic-form-example'
+  name: 'example-dynamic-form'
 })
 
 const dynamicFormRef = ref<DynamicFormInstance | null>(null)
