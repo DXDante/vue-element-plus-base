@@ -208,9 +208,10 @@ const batchUpdateData = async (keys: string[] = ['column-0', 'column-1', 'column
 
   console.time('###')
   const newValue = textRef.value
-  // 1) 响应式数据直接循环更改选中数据的属性 - 10W 条数据 280ms
-  // 2) 循环原始数据最快(不涉及到代理属性被访问时调用函数) - 10W 条数据 10 ~ 14ms
-  //    同样创建的新数组, map 循环创建 item 数据返回比初始化数组空间再插入新数据更快, 不能直接修源数据再赋值到响应式数据替换(会报错), 通过 map 循环完全新建数据并返回新数组赋值最快
+  // 1) 响应式数据直接循环更改选中数据的属性(如果你明白 Vue 响应式原理就知道为什么) - 10W 条数据 280ms
+  // 2) 循环原始数据最快(不涉及到代理属性被访问时调用大量函数) - 10W 条数据 10 ~ 14ms
+  //    同样创建的新数组, map 循环创建的 item 生成的数据 比 初始化数组空间数据, 然后再挨个插入新数据更快
+  //    不能直接修源数据再赋值到响应式数据替换(会报错), 通过 map 完全新建数据并返回新数组赋值最快
   const newData = toRaw(dataRef.value).map(item => {
     const newItem = { ...item }
     if (newItem.checked) {

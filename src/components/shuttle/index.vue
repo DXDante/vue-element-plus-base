@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import type { IShuttleProps } from './index'
-import { computed, ref, withDefaults, toRefs } from 'vue'
+import { computed, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 
 /**
@@ -34,7 +34,7 @@ defineOptions({
 const defaultSlideSize = 100
 const defaultZoomSize = 0.96
 
-// 为了兼容 3.4 及以下版本, 采用编译器宏来设置默认值
+// 为了兼容 3.4 及以下版本, 采用编译器宏来设置默认值(3.4 以下必须导入使用)
 const props = withDefaults(defineProps<IShuttleProps>(), {
   mode: 'slide',
   duration: 180,
