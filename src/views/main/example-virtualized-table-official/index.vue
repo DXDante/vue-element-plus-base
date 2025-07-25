@@ -105,24 +105,29 @@ columns[0] = {
   title: '固定列头(可编辑)',
   cellRenderer: ({ rowData, column, ...others }) => {
     // console.log('编辑 - 单元格 cellRenderer')
-    const input = ref<ElementPlus.InputInstance | null>(null)
-    const setRef = (el: ElementPlus.InputInstance) => {
-      console.log('调用 setRef:', el)
-      input.value = el
-      if (el) {
-        el.focus?.()
+
+    if (rowData.editing) {
+      // const input = ref<ElementPlus.InputInstance | null>(null)
+      const setRef = (el: ElementPlus.InputInstance) => {
+        console.log('调用 setRef:', el)
+        // input.value = el
+        if (el) {
+          el.focus?.()
+        }
       }
+
+      return (
+        <InputCell
+          forwardRef={setRef}
+          value={rowData[column.dataKey!]}
+          onChange={(...rest) => onRowInputChange({ rowData, column, ...others }, ...rest)}
+          onBlur={() => onRowExitEditMode({ rowData, column, ...others })}
+          onKeydownEnter={() => onRowExitEditMode({ rowData, column, ...others })}
+        />
+      )
     }
 
-    return rowData.editing ? (
-      <InputCell
-        forwardRef={setRef}
-        value={rowData[column.dataKey!]}
-        onChange={(...rest) => onRowInputChange({ rowData, column, ...others }, ...rest)}
-        onBlur={() => onRowExitEditMode({ rowData, column, ...others })}
-        onKeydownEnter={() => onRowExitEditMode({ rowData, column, ...others })}
-      />
-    ) : (
+    return (
       <div class="table-v2-inline-editing-trigger not-select" onDblclick={() => onRowEnterEditMode({ rowData, column, ...others })} >
         {rowData[column.dataKey!]}
       </div>

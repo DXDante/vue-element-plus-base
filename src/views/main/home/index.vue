@@ -7,8 +7,7 @@
         @click.stop="toRoute('main-action')">用户权限指定动态路由</el-button>
       <el-button class="btn" type="primary" round @click.stop="toRoute('main-dynamic-form-example')">动态表单示例</el-button>
       <el-button class="btn" type="primary" round
-        @click.stop="toRoute('main-virtualized-table-official-example')">虚拟表格批量编辑示例(10W 数据, 函数式组件 + ref
-        深度响应式)</el-button>
+        @click.stop="toRoute('main-virtualized-table-official-example')">虚拟表格批量编辑示例(10W 数据)</el-button>
       <el-button class="btn" type="primary" round @click.stop="toBack">返回</el-button>
     </div>
   </div>
