@@ -12,6 +12,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import ElementPlus from 'unplugin-element-plus/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import viteCompression from 'vite-plugin-compression'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ /*command, */ mode }) => {
@@ -57,17 +58,35 @@ export default defineConfig(({ /*command, */ mode }) => {
       Icons({
         autoInstall: true
       }),
-      visualizer({
-        open: true,
-        filename: 'stats.html',
-        gzipSize: true,
-        brotliSize: true
-      }),
       // 按需导入且自定义主题时, 需要在使用的组件中导入对应的组件 SCSS, 如下(建议这样, 虽然麻烦但可减少打包样式的代码, 但你也可以不这样做)
       // 例如: import 'element-plus/es/components/button/style/index'
       ElementPlus({
         useSource: true
+      }),
+      visualizer({
+        open: true,
+        filename: 'stats.html',
+        // template: 'treemap', // 使用树状图分析
+        gzipSize: true,
+        brotliSize: true,
+        sourcemap: true // 关联 sourcemap 查看源码占比
+      }),
+      // Brotli 压缩
+      viteCompression({
+        algorithm: 'brotliCompress',
+        ext: '.br',
+        threshold: 10240, // 大于 10KB 的文件才压缩
+        deleteOriginFile: false, // 不删除源文件
+        verbose: true
       })
+      // // Gzip 压缩 (兼容性高, 如果为了兼容性, 可开启双压缩)
+      // viteCompression({
+      //   algorithm: 'gzip',
+      //   ext: '.gz',
+      //   threshold: 10240,
+      //   deleteOriginFile: false,
+      //   verbose: true
+      // })
     ],
     css: {
       preprocessorOptions: {
@@ -128,10 +147,32 @@ export default defineConfig(({ /*command, */ mode }) => {
       minify: 'esbuild',
       rollupOptions: {
         output: {
-          manualChunks: {
-            // 这里将 vue 生态打包到一个 chunk 中, 必须先写 vue, 因为后者依赖了前者
-            vue: ['vue', 'vue-router', 'pinia'],
-            'element-plus': ['element-plus']
+          manualChunks(id: string) {
+            if (id.includes('node_modules')) {
+              // 1) 单独拆分 Element Plus 组件
+              if (id.includes('element-plus/es/components')) {
+                const match = /\/components\/(.+?)\//.exec(id)
+                return match ? `element-plus-${match[1]}` : 'element-plus-extra'
+              }
+
+              // 2) 拆分 Vue 生态为独立 chunk
+              if (id.includes('vue') || id.includes('@vue')) {
+                return 'vue-core'
+              }
+              if (id.includes('pinia')) {
+                return 'pinia'
+              }
+              if (id.includes('vue-router')) {
+                return 'vue-router'
+              }
+
+              // 3) 其他大依赖单独拆包
+              if (id.includes('lodash')) return 'lodash'
+              if (id.includes('axios')) return 'axios'
+
+              // 4) 剩余 node_modules 合并为 vendor
+              return 'vendor'
+            }
           },
           entryFileNames: `assets/[name]-[hash].js`,
           chunkFileNames: `assets/[name]-[hash].js`,

@@ -53,6 +53,7 @@
     "unplugin-icons": "^0.16.3",
     "unplugin-vue-components": "^28.7.0",
     "vite": "^6.2.4",
+    "vite-plugin-compression": "^0.5.1",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vue-tsc": "^2.2.8",
     "yapi-to-typescript": "^3.38.0"
