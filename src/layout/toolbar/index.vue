@@ -3,8 +3,8 @@
     <div class="left bs-b d-f flex-ai-c"></div>
     <div class="center bs-b d-f flex-ai-c"></div>
     <div class="right bs-b d-f flex-ai-c">
-      <LangPanel />
-      <UserPanel />
+      <lang-panel />
+      <user-panel />
     </div>
   </div>
 </template>

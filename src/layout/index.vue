@@ -1,17 +1,23 @@
 <template>
   <div class="layout-wrap bs-b d-f flex-ff-c flex-ai-s">
-    <!-- 其他布局板块 -->
-    <Toolbar />
-    <RouterView v-slot="{ Component }">
-      <transition>
-        <component :is="Component" />
-      </transition>
-    </RouterView>
+    <div class="layout-toolbar-wrap bs-b">
+      <toolbar />
+    </div>
+    <div class="layout-body-wrap bs-b d-f flex-ai-s">
+      <div class="layout-sidebar-wrap bs-b"></div>
+      <div class="layout-content-wrap bs-b">
+        <router-view v-slot="{ Component }">
+          <!-- <shuttle></shuttle> -->
+          <component :is="Component" />
+        </router-view>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import Toolbar from './toolbar/index.vue'
+import { defineAsyncComponent } from 'vue'
+const Toolbar = defineAsyncComponent(() => import('./toolbar/index.vue'))
 
 defineOptions({
   name: 'layout-index'
