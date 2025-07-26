@@ -17,7 +17,7 @@ import { useUserStore } from 'stores/user/index'
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'tool-bar'
+  name: 'toolbar-index'
 })
 
 const { isLogged: userStoreIsLogged } = storeToRefs(useUserStore())

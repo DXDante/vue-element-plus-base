@@ -4,7 +4,9 @@
       <toolbar />
     </div>
     <div class="layout-body-wrap bs-b d-f flex-ai-s">
-      <div class="layout-sidebar-wrap bs-b"></div>
+      <div class="layout-sidebar-wrap bs-b">
+        <sidebar />
+      </div>
       <div class="layout-content-wrap bs-b">
         <router-view v-slot="{ Component }">
           <!-- <shuttle></shuttle> -->
@@ -18,6 +20,7 @@
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue'
 const Toolbar = defineAsyncComponent(() => import('./toolbar/index.vue'))
+const Sidebar = defineAsyncComponent(() => import('./sidebar/index.vue'))
 
 defineOptions({
   name: 'layout-index'

@@ -6,7 +6,8 @@ const authActionRoutes = <VueRouter.RouteRecordRaw[]>[
     path: 'action',
     name: 'main-action',
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      title: '权限动态路由示例'
     },
     component: () => import('views/main/action/index.vue')
   }
