@@ -11,6 +11,7 @@ import {
   storeExtendRouter as pluginStoreExtendRouter,
   storeReset as pluginStoreReset
 } from 'plugins/stores'
+import pluginElementGlobalService from 'plugins/element-global-service'
 import { persistedStateMainKey } from 'config'
 
 import 'styles/reset-default.css'
@@ -34,5 +35,6 @@ app.use(pinia)
 app.use(router)
 app.use(pluginComponents)
 app.use(pluginIcons)
+app.use(pluginElementGlobalService)
 
 app.mount('#app')

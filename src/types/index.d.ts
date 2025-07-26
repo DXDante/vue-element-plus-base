@@ -3,6 +3,7 @@ import type * as VueRouterTypes from 'vue-router'
 import type * as PiniaTypes from 'pinia'
 import type * as ElementPlusTypes from 'element-plus'
 import type * as AxiosTypes from 'axios'
+import type * as DayjsTypes from 'dayjs'
 
 declare global {
   namespace Vue {
@@ -38,5 +39,8 @@ declare global {
   }
   namespace Axios {
     export = AxiosTypes
+  }
+  namespace Dayjs {
+    export = DayjsTypes
   }
 }
