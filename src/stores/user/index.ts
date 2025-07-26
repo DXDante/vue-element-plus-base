@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { defaultAfterLoginRoute, defaultAfterLogoutRoute } from 'config'
 import { login as loginRequest, logout as logoutRequest } from 'api/identity'
 import { queryUserInfo } from 'api/user'
-import { decodeRedirectQuery } from 'utils/redirectQuery'
+import { decodeRedirectQuery } from 'utils/redirect-query'
 import { ElMessage } from 'element-plus'
 
 export const useUserStore = defineStore(

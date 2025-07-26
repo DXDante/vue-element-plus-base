@@ -4,10 +4,10 @@
 import { storeToRefs } from 'pinia'
 import { useUserStore } from 'stores/user'
 import useAuthRoute from 'services/use-auth-route'
-import { encodeRedirectQuery } from 'utils/redirectQuery'
+import { encodeRedirectQuery } from 'utils/redirect-query'
 import { isString } from 'lodash-es'
 // 鉴权路由
-import authPublicRoutes from '@/router/config/auth-routes-config'
+import authPublicRoutes from 'router/config/auth-routes-config'
 import authActionRoutes from 'router/config/auth-routes-action-config'
 
 export const useGlobalInterceptor = (router: VueRouter.Router) => {
