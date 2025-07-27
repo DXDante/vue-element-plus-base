@@ -148,17 +148,41 @@ export default defineConfig(({ /*command, */ mode }) => {
       rollupOptions: {
         output: {
           manualChunks(id: string) {
+            // TODO: 这里匹配条件比较宽泛, 不应该把 vue 放在最前面, 会导致相关的依赖被打包到 core 中, 应该先匹配精确的匹配, 再匹配 vue 关键词的宽泛匹配
             if (id.includes('node_modules')) {
-              // 1) 单独拆分 Element Plus 组件
-              if (id.includes('element-plus/es/components')) {
-                const match = /\/components\/(.+?)\//.exec(id)
-                return match ? `element-plus-${match[1]}` : 'element-plus-extra'
+              // 1) 第三方依赖
+              if (id.includes('lodash-es')) {
+                return 'lodash-es'
+              }
+              if (id.includes('axios')) {
+                return 'axios'
+              }
+              if (id.includes('dayjs')) {
+                return 'dayjs'
               }
 
-              // 2) 拆分 Vue 生态为独立 chunk
-              if (id.includes('vue') || id.includes('@vue')) {
-                return 'vue-core'
+              // ... 其他库优先匹配
+
+              // 2) Element Plus
+              if (id.includes('element-plus')) {
+                // 2.1) 图标库
+                if (id.includes('@element-plus/icons-vue')) {
+                  return 'element-icons'
+                }
+
+                // 2.2) 组件
+                if (id.includes('element-plus/es/components')) {
+                  const match = /\/components\/(.+?)\//.exec(id)
+                  return match ? `element-plus-${match[1]}` : 'element-plus-extra'
+                }
+
+                // 2.3) 其他部分
+                if (id.includes('element-plus/es')) {
+                  return 'element-core'
+                }
               }
+
+              // 3) Vue 生态相关(先匹配)
               if (id.includes('pinia')) {
                 return 'pinia'
               }
@@ -166,11 +190,12 @@ export default defineConfig(({ /*command, */ mode }) => {
                 return 'vue-router'
               }
 
-              // 3) 其他大依赖单独拆包
-              if (id.includes('lodash')) return 'lodash'
-              if (id.includes('axios')) return 'axios'
+              // 4) Vue
+              if (id.includes('vue') || id.includes('@vue')) {
+                return 'vue-core'
+              }
 
-              // 4) 剩余 node_modules 合并为 vendor
+              // 5) 剩余 node_modules 合并到 vendor
               return 'vendor'
             }
           },
