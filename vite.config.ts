@@ -68,8 +68,8 @@ export default defineConfig(({ /*command, */ mode }) => {
         filename: 'stats.html',
         // template: 'treemap', // 使用树状图分析
         gzipSize: true,
-        brotliSize: true,
-        sourcemap: true // 关联 sourcemap 查看源码占比
+        brotliSize: true
+        // sourcemap: true // 关联 sourcemap 查看源码占比
       }),
       // Brotli 压缩
       viteCompression({
