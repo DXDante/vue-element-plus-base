@@ -1,9 +1,11 @@
+import { request } from 'services/request'
+
 /**
  * 查询用户信息
  * @param
  * @return
  */
-export const queryUserInfo = (): Promise<Http.IResponseBase<UserGetUserInfoResponse>> => {
+export const queryUserInfo: Http.RequestFunction<unknown, UserGetUserInfoResponse> = () => {
   /********** 测试代码 **********/
   return new Promise((resolve) =>
     setTimeout(resolve, 1000, {
@@ -24,4 +26,20 @@ export const queryUserInfo = (): Promise<Http.IResponseBase<UserGetUserInfoRespo
   //   method: 'POST',
   //   interfacePath: '/api/getUserInfo'
   // })
+}
+
+/**
+ * 查询用户列表
+ * @param
+ * @return
+ */
+export const queryUserList: Http.RequestFunction<
+  UserGetUserListRequest,
+  UserGetUserListResponse
+> = (param) => {
+  return request({
+    method: 'GET',
+    interfacePath: '/api/queryUserList',
+    data: param
+  })
 }

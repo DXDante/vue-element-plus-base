@@ -18,8 +18,8 @@ importers:
         specifier: ^1.11.13
         version: 1.11.13
       easy-tools-axios:
-        specifier: ^1.1.2
-        version: 1.1.2
+        specifier: ^1.2.1
+        version: 1.2.1
       element-plus:
         specifier: ~2.10.3
         version: 2.10.3(vue@3.5.18(typescript@5.8.3))
@@ -1579,8 +1579,8 @@ packages:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
 
-  easy-tools-axios@1.1.2:
-    resolution: {integrity: sha512-UceMuuS8Xd7LTf7nbY/FpU8R+c0U8AftV7Kv/oQQmqX9EcoWjJeayIeijZRNkR2o6EAlmWFvCAtadRXs3olSdA==}
+  easy-tools-axios@1.2.1:
+    resolution: {integrity: sha512-PAR25C3Wce3ED/Dniz5Y6bHB0Nqjo7C6LEAE2NHa7zEfwAu5p6SxGgKa+3f27yMgO8T+El+SkI6hH9d0LOWtRQ==}
 
   electron-to-chromium@1.5.171:
     resolution: {integrity: sha512-scWpzXEJEMrGJa4Y6m/tVotb0WuvNmasv3wWVzUAeCgKU0ToFOhUW6Z+xWnRQANMYGxN4ngJXIThgBJOqzVPCQ==}
@@ -5393,7 +5393,7 @@ snapshots:
       es-errors: 1.3.0
       gopd: 1.2.0
 
-  easy-tools-axios@1.1.2: {}
+  easy-tools-axios@1.2.1: {}
 
   electron-to-chromium@1.5.171: {}
 

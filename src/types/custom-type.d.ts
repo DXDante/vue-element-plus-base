@@ -13,3 +13,5 @@ declare type ValueTypes<T> = T[keyof T]
 declare type ValueKebabCaseToPascalCase<T extends string> = T extends `${infer First}-${infer Rest}`
   ? `${Capitalize<First>}${ValueKebabCaseToPascalCase<Rest>}`
   : Capitalize<T>
+
+declare type Parameter<T> = T extends (...rest: [infer P]) => unknown ? P : never
