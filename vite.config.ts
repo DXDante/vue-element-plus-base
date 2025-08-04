@@ -6,13 +6,15 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import { visualizer } from 'rollup-plugin-visualizer'
-
 import ElementPlus from 'unplugin-element-plus/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+
+import { visualizer } from 'rollup-plugin-visualizer'
 import viteCompression from 'vite-plugin-compression'
+
+import { useLibraryModuleClassify } from './build'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ /*command, */ mode }) => {
@@ -148,56 +150,22 @@ export default defineConfig(({ /*command, */ mode }) => {
       rollupOptions: {
         output: {
           manualChunks(id: string) {
-            // TODO: 这里匹配条件比较宽泛, 不应该把 vue 放在最前面, 会导致相关的依赖被打包到 core 中, 应该先匹配精确的匹配, 再匹配 vue 关键词的宽泛匹配
+            // 1) 库分类
             if (id.includes('node_modules')) {
-              // 1) 第三方依赖
-              if (id.includes('lodash-es')) {
-                return 'lodash-es'
-              }
-              if (id.includes('axios')) {
-                return 'axios'
-              }
-              if (id.includes('dayjs')) {
-                return 'dayjs'
-              }
+              const splitPath = id.split('node_modules/')
+              const modulePath = splitPath[2] || splitPath[1]
+              const moduleName = modulePath.split('/')[0]
 
-              // ... 其他库优先匹配
-
-              // 2) Element Plus
-              if (id.includes('element-plus')) {
-                // 2.1) 图标库
-                if (id.includes('@element-plus/icons-vue')) {
-                  return 'element-icons'
-                }
-
-                // 2.2) 组件
-                if (id.includes('element-plus/es/components')) {
-                  const match = /\/components\/(.+?)\//.exec(id)
-                  return match ? `element-plus-${match[1]}` : 'element-plus-extra'
-                }
-
-                // 2.3) 其他部分
-                if (id.includes('element-plus/es')) {
-                  return 'element-core'
-                }
+              // 1.1) 主库分类
+              const libraryClassify = useLibraryModuleClassify(moduleName, modulePath)
+              if (libraryClassify) {
+                return libraryClassify
               }
 
-              // 3) Vue 生态相关(先匹配)
-              if (id.includes('pinia')) {
-                return 'pinia'
-              }
-              if (id.includes('vue-router')) {
-                return 'vue-router'
-              }
-
-              // 4) Vue
-              if (id.includes('vue') || id.includes('@vue')) {
-                return 'vue-core'
-              }
-
-              // 5) 剩余 node_modules 合并到 vendor
+              // 1.2) 剩余 node_modules 合并到 vendor
               return 'vendor'
             }
+            // 2) 业务分类
           },
           entryFileNames: `assets/[name]-[hash].js`,
           chunkFileNames: `assets/[name]-[hash].js`,
