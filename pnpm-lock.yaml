@@ -21,8 +21,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       element-plus:
-        specifier: ~2.10.3
-        version: 2.10.3(vue@3.5.18(typescript@5.8.3))
+        specifier: ~2.10.5
+        version: 2.10.5(vue@3.5.18(typescript@5.8.3))
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
@@ -33,8 +33,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.8.3)(vue@3.5.18(typescript@5.8.3))
       pinia-plugin-persistedstate:
-        specifier: ^4.3.0
-        version: 4.3.0(pinia@3.0.3(typescript@5.8.3)(vue@3.5.18(typescript@5.8.3)))
+        specifier: ^4.4.1
+        version: 4.4.1(@nuxt/kit@3.17.5)(pinia@3.0.3(typescript@5.8.3)(vue@3.5.18(typescript@5.8.3)))
       qs:
         specifier: ^6.14.0
         version: 6.14.0
@@ -1588,8 +1588,8 @@ packages:
   electron-to-chromium@1.5.179:
     resolution: {integrity: sha512-UWKi/EbBopgfFsc5k61wFpV7WrnnSlSzW/e2XcBmS6qKYTivZlLtoll5/rdqRTxGglGHkmkW0j0pFNJG10EUIQ==}
 
-  element-plus@2.10.3:
-    resolution: {integrity: sha512-OLpf0iekuvWJrz1+H9ybvem6TYTKSNk6L1QDA3tYq2YWbogKXJnWpHG1UAGKR1B7gx+vUH7M15VIH3EijE9Kgw==}
+  element-plus@2.10.5:
+    resolution: {integrity: sha512-O9wTDu3Tm51ACVByWrThtBhH4Ygefg1HGY5pyAaxnoIrj8uMN0GtZ4IREwR3Yw/6sM2HyxjrsGI/D46iUVP97A==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -2796,12 +2796,15 @@ packages:
     engines: {node: '>=0.10'}
     hasBin: true
 
-  pinia-plugin-persistedstate@4.3.0:
-    resolution: {integrity: sha512-x9wxpHj6iFDj5ITQJ3rj6+KesEqyRk/vqcE3WE+VGfetleV9Zufqwa9qJ6AkA5wmRSQEp7BTA1us/MDVTRHFFw==}
+  pinia-plugin-persistedstate@4.4.1:
+    resolution: {integrity: sha512-lmuMPpXla2zJKjxEq34e1E9P9jxkWEhcVwwioCCE0izG45kkTOvQfCzvwhW3i38cvnaWC7T1eRdkd15Re59ldw==}
     peerDependencies:
+      '@nuxt/kit': '>=3.0.0'
       '@pinia/nuxt': '>=0.10.0'
       pinia: '>=3.0.0'
     peerDependenciesMeta:
+      '@nuxt/kit':
+        optional: true
       '@pinia/nuxt':
         optional: true
       pinia:
@@ -4311,6 +4314,7 @@ snapshots:
       untyped: 2.0.0
     transitivePeerDependencies:
       - magicast
+    optional: true
 
   '@paralleldrive/cuid2@2.2.2':
     dependencies:
@@ -5092,6 +5096,7 @@ snapshots:
       perfect-debounce: 1.0.0
       pkg-types: 2.1.0
       rc9: 2.1.2
+    optional: true
 
   call-bind-apply-helpers@1.0.2:
     dependencies:
@@ -5176,6 +5181,7 @@ snapshots:
   citty@0.1.6:
     dependencies:
       consola: 3.4.2
+    optional: true
 
   cli-color@2.0.4:
     dependencies:
@@ -5239,7 +5245,8 @@ snapshots:
 
   consola@2.15.3: {}
 
-  consola@3.4.2: {}
+  consola@3.4.2:
+    optional: true
 
   constant-case@2.0.0:
     dependencies:
@@ -5385,7 +5392,8 @@ snapshots:
     dependencies:
       no-case: 2.3.2
 
-  dotenv@16.5.0: {}
+  dotenv@16.5.0:
+    optional: true
 
   dunder-proto@1.0.1:
     dependencies:
@@ -5399,7 +5407,7 @@ snapshots:
 
   electron-to-chromium@1.5.179: {}
 
-  element-plus@2.10.3(vue@3.5.18(typescript@5.8.3)):
+  element-plus@2.10.5(vue@3.5.18(typescript@5.8.3)):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
       '@element-plus/icons-vue': 2.3.1(vue@3.5.18(typescript@5.8.3))
@@ -5435,7 +5443,8 @@ snapshots:
     dependencies:
       stackframe: 1.3.4
 
-  errx@0.1.0: {}
+  errx@0.1.0:
+    optional: true
 
   es-abstract@1.24.0:
     dependencies:
@@ -5942,6 +5951,7 @@ snapshots:
       node-fetch-native: 1.6.6
       nypm: 0.6.0
       pathe: 2.0.3
+    optional: true
 
   glob-parent@5.1.2:
     dependencies:
@@ -6336,9 +6346,11 @@ snapshots:
 
   kleur@3.0.3: {}
 
-  klona@2.0.6: {}
+  klona@2.0.6:
+    optional: true
 
-  knitwork@1.2.0: {}
+  knitwork@1.2.0:
+    optional: true
 
   kolorist@1.8.0: {}
 
@@ -6529,7 +6541,8 @@ snapshots:
 
   node-domexception@1.0.0: {}
 
-  node-fetch-native@1.6.6: {}
+  node-fetch-native@1.6.6:
+    optional: true
 
   node-fetch@2.7.0:
     dependencies:
@@ -6574,6 +6587,7 @@ snapshots:
       pathe: 2.0.3
       pkg-types: 2.1.0
       tinyexec: 0.3.2
+    optional: true
 
   object-assign@4.1.1: {}
 
@@ -6590,7 +6604,8 @@ snapshots:
       has-symbols: 1.1.0
       object-keys: 1.1.1
 
-  ohash@2.0.11: {}
+  ohash@2.0.11:
+    optional: true
 
   once@1.4.0:
     dependencies:
@@ -6723,16 +6738,14 @@ snapshots:
 
   pidtree@0.6.0: {}
 
-  pinia-plugin-persistedstate@4.3.0(pinia@3.0.3(typescript@5.8.3)(vue@3.5.18(typescript@5.8.3))):
+  pinia-plugin-persistedstate@4.4.1(@nuxt/kit@3.17.5)(pinia@3.0.3(typescript@5.8.3)(vue@3.5.18(typescript@5.8.3))):
     dependencies:
-      '@nuxt/kit': 3.17.5
       deep-pick-omit: 1.2.1
       defu: 6.1.4
       destr: 2.0.5
     optionalDependencies:
+      '@nuxt/kit': 3.17.5
       pinia: 3.0.3(typescript@5.8.3)(vue@3.5.18(typescript@5.8.3))
-    transitivePeerDependencies:
-      - magicast
 
   pinia@3.0.3(typescript@5.8.3)(vue@3.5.18(typescript@5.8.3)):
     dependencies:
@@ -6839,6 +6852,7 @@ snapshots:
     dependencies:
       defu: 6.1.4
       destr: 2.0.5
+    optional: true
 
   react-dom@19.1.0(react@19.1.0):
     dependencies:
@@ -7174,7 +7188,8 @@ snapshots:
 
   statuses@2.0.1: {}
 
-  std-env@3.9.0: {}
+  std-env@3.9.0:
+    optional: true
 
   stop-iteration-iterator@1.1.0:
     dependencies:
@@ -7311,7 +7326,8 @@ snapshots:
       es5-ext: 0.10.64
       next-tick: 1.1.0
 
-  tinyexec@0.3.2: {}
+  tinyexec@0.3.2:
+    optional: true
 
   tinyexec@1.0.1: {}
 
@@ -7474,6 +7490,7 @@ snapshots:
       estree-walker: 3.0.3
       magic-string: 0.30.17
       unplugin: 2.3.5
+    optional: true
 
   undici-types@7.8.0: {}
 
@@ -7512,6 +7529,7 @@ snapshots:
       tinyglobby: 0.2.14
       unplugin: 2.3.5
       unplugin-utils: 0.2.4
+    optional: true
 
   universalify@0.1.2: {}
 
@@ -7597,6 +7615,7 @@ snapshots:
       jiti: 2.4.2
       knitwork: 1.2.0
       scule: 1.3.0
+    optional: true
 
   update-browserslist-db@1.1.3(browserslist@4.25.0):
     dependencies:
