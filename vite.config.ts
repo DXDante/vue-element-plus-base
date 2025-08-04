@@ -13,8 +13,10 @@ import IconsResolver from 'unplugin-icons/resolver'
 
 import { visualizer } from 'rollup-plugin-visualizer'
 import viteCompression from 'vite-plugin-compression'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
+import removeConsole from 'vite-plugin-remove-console'
 
-import { useLibraryModuleClassify } from './build'
+import { useLibraryModuleClassify, removeLogs } from './build'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ /*command, */ mode }) => {
@@ -22,74 +24,112 @@ export default defineConfig(({ /*command, */ mode }) => {
   // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
   const env = loadEnv(mode, process.cwd(), '')
 
+  const plugins = [
+    vue(),
+    // DefineOptions(),
+    vueJsx({
+      transformOn: true,
+      optimize: true
+    }),
+    vueDevTools(),
+    AutoImport({
+      include: [/\.tsx?$/, /\.vue$/, /\.vue\?vue/],
+      imports: ['vue', 'vue-router', 'pinia'],
+      resolvers: [
+        ElementPlusResolver(),
+        // 自动导入图标组件
+        IconsResolver({ prefix: 'Icon' })
+      ],
+      dts: './auto-imports.d.ts'
+    }),
+    Components({
+      // allow auto load markdown components under `./src/components/`
+      extensions: ['vue', 'md'],
+      // allow auto import and register components used in markdown
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      resolvers: [
+        // 自动注册图标组件
+        IconsResolver({ enabledCollections: ['ep'] }),
+        ElementPlusResolver({
+          importStyle: 'sass', // 使用 sass 而不是 css
+          directives: true // 自动导入指令
+        })
+      ],
+      dts: './components.d.ts'
+    }),
+    Icons({
+      autoInstall: true
+    }),
+    // 按需导入且自定义主题时, 需要在使用的组件中导入对应的组件 SCSS, 如下(建议这样, 虽然麻烦但可减少打包样式的代码, 但你也可以不这样做)
+    // 例如: import 'element-plus/es/components/button/style/index'
+    ElementPlus({
+      useSource: true
+    }),
+    visualizer({
+      open: true,
+      filename: 'stats.html',
+      // template: 'treemap', // 使用树状图分析
+      gzipSize: true,
+      brotliSize: true
+      // sourcemap: true // 关联 sourcemap 查看源码占比
+    }),
+    // Brotli 压缩
+    viteCompression({
+      algorithm: 'brotliCompress',
+      ext: '.br',
+      threshold: 10240, // 大于 10KB 的文件才压缩
+      deleteOriginFile: false, // 不删除源文件
+      verbose: true
+    })
+    // // Gzip 压缩 (兼容性高, 如果为了兼容性, 可开启双压缩)
+    // viteCompression({
+    //   algorithm: 'gzip',
+    //   ext: '.gz',
+    //   threshold: 10240,
+    //   deleteOriginFile: false,
+    //   verbose: true
+    // })
+  ]
+
+  // 控制台日志输出
+  if (env.VITE_DEBUG_MODE == 'false') {
+    plugins.push(
+      removeConsole({
+        includes: removeLogs
+      })
+    )
+  }
+
+  // 生产环境
+  if (mode == 'production') {
+    plugins.push(
+      ViteImageOptimizer({
+        cache: true,
+        include: /\.(png|jpe?g|webp|avif|svg)$/,
+        png: { quality: 80, compressionLevel: 9 },
+        jpeg: { quality: 75, progressive: true },
+        jpg: { quality: 75, progressive: true },
+        webp: { quality: 80, lossless: false },
+        avif: { quality: 70 },
+        svg: {
+          multipass: true,
+          plugins: [
+            { name: 'removeViewBox', active: false },
+            { name: 'removeDimensions', active: true },
+            { name: 'cleanupIds', active: true }
+          ]
+        },
+        // Vite 默认不处理 public 目录, 除非手动定义 external 路径、并且不在 exclude 中排除
+        // public/legacy 目录存放不优化的图片(如果有), public\/(legacy|original)
+        exclude: /(node_modules|public)/
+        // external: ["**/public/**/*.svg"]
+      })
+    )
+  }
+
   return {
     base: env.VITE_PROJECT_BASE_URL,
-    plugins: [
-      vue(),
-      // DefineOptions(),
-      vueJsx({
-        transformOn: true,
-        optimize: true
-      }),
-      vueDevTools(),
-      AutoImport({
-        include: [/\.tsx?$/, /\.vue$/, /\.vue\?vue/],
-        imports: ['vue', 'vue-router', 'pinia'],
-        resolvers: [
-          ElementPlusResolver(),
-          // 自动导入图标组件
-          IconsResolver({ prefix: 'Icon' })
-        ],
-        dts: './auto-imports.d.ts'
-      }),
-      Components({
-        // allow auto load markdown components under `./src/components/`
-        extensions: ['vue', 'md'],
-        // allow auto import and register components used in markdown
-        include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-        resolvers: [
-          // 自动注册图标组件
-          IconsResolver({ enabledCollections: ['ep'] }),
-          ElementPlusResolver({
-            importStyle: 'sass', // 使用 sass 而不是 css
-            directives: true // 自动导入指令
-          })
-        ],
-        dts: './components.d.ts'
-      }),
-      Icons({
-        autoInstall: true
-      }),
-      // 按需导入且自定义主题时, 需要在使用的组件中导入对应的组件 SCSS, 如下(建议这样, 虽然麻烦但可减少打包样式的代码, 但你也可以不这样做)
-      // 例如: import 'element-plus/es/components/button/style/index'
-      ElementPlus({
-        useSource: true
-      }),
-      visualizer({
-        open: true,
-        filename: 'stats.html',
-        // template: 'treemap', // 使用树状图分析
-        gzipSize: true,
-        brotliSize: true
-        // sourcemap: true // 关联 sourcemap 查看源码占比
-      }),
-      // Brotli 压缩
-      viteCompression({
-        algorithm: 'brotliCompress',
-        ext: '.br',
-        threshold: 10240, // 大于 10KB 的文件才压缩
-        deleteOriginFile: false, // 不删除源文件
-        verbose: true
-      })
-      // // Gzip 压缩 (兼容性高, 如果为了兼容性, 可开启双压缩)
-      // viteCompression({
-      //   algorithm: 'gzip',
-      //   ext: '.gz',
-      //   threshold: 10240,
-      //   deleteOriginFile: false,
-      //   verbose: true
-      // })
-    ],
+    plugins,
     css: {
       preprocessorOptions: {
         scss: {
@@ -174,7 +214,7 @@ export default defineConfig(({ /*command, */ mode }) => {
       }
     },
     optimizeDeps: {
-      include: ['vue', 'vue-router', 'pinia'],
+      include: ['vue', 'vue-router', 'pinia', 'element-plus'],
       exclude: ['vue-demi']
     }
   }

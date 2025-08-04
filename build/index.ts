@@ -39,7 +39,7 @@ export const useLibraryModuleClassify = (moduleName: string, modulePath: string)
     if (modulePath.startsWith('element-plus/es/components')) {
       const match = /\/components\/(.+?)\//.exec(modulePath)
       const matchName = match ? match[1] : ''
-      console.log(matchName)
+
       // 2.2.1) 表单合并
       if (elForm.has(matchName)) return 'element-plus-form'
       if (elFormCheckboxRadio.has(matchName)) return 'element-plus-form-checkbox-radio'
@@ -75,3 +75,18 @@ export const useLibraryModuleClassify = (moduleName: string, modulePath: string)
 
   return ''
 }
+
+// 移除控制台日志项
+export const removeLogs = [
+  'log',
+  'warn',
+  'error',
+  'info',
+  'debug',
+  'group',
+  'groupCollapsed',
+  'groupEnd',
+  'time',
+  'timeEnd',
+  'dir'
+]

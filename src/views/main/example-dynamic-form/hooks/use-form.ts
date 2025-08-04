@@ -287,7 +287,9 @@ export const useForm = () => {
       .catch(() => false)
   }
 
-  watch(formModelProps, (to) => console.log('formModelProps changed:', { ...to }))
+  watch(formModelProps, (to) => {
+    console.log('formModelProps changed:', { ...to })
+  })
 
   return {
     formModelProps,
